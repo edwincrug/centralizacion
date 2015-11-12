@@ -1,0 +1,1 @@
+var searchUrl=global_settings.urlCORS+"/api/searchapi/";registrationModule.factory("searchRepository",function(r){return{get:function(t){return r.get(searchUrl+"1|"+t)},update:function(t){return r.post(searchUrl+"2|"+t)}}});

@@ -1,0 +1,106 @@
+<div cg-busy="myPromise" ng-init="init()" resize>
+  <div id="contenedor">
+    <section id="navigator">
+      <ul id="standard">
+        <li ng-repeat="nodo in listaNodos">
+          <img src="{{ 'image/' + nodo.imagen }}" class="logotipo"/>
+          <h4 class="nombre"> {{ nodo.nombre }}</h4>
+          <h5 class="descripcion"> {{ nodo.descripcion }}</h4>
+            <div class="alerta" ng-hide="{{ nodo.alertas == 0 }}">
+              {{ nodo.alertas }}
+            </div>
+            <div class="numero">
+              {{ nodo.id }}
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section class="control">
+        <div id="navigateControl">
+          <nav id="navigate">
+            <ul class="pagination">
+              <li><a class="prev anavigatorNode"><span aria-hidden="true">«</span></a></li>
+              <li ng-repeat="nodo in listaNodos" ng-class="{ 'active': nodo.active == 1, 'disabled': nodo.enabled == 0 }"><a ng-click="setPage($event,nodo)" tooltip="{{ nodo.nombre + ( nodo.enabled == 0 ? ' (No disponible para su perfil)' : '') }}" ng-class="{ 'nodoDisabled': nodo.enabled == 0 }" class="anavigatorNode">{{ nodo.id }}</a></li>
+              <li><a class="next anavigatorNode"><span aria-hidden="true">»</span></a></li>
+            </ul>
+          </nav>
+        </div>
+        <hr />
+      </section>
+
+      <section id="loader" ng-show="isLoading">
+        <div class="loading">
+          <div class="windows8">
+            <div class="wBall" id="wBall_1">
+              <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_2">
+              <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_3">
+              <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_4">
+              <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_5">
+              <div class="wInnerBall"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="detail" ng-show="!isLoading">
+        <div class="row linea">
+          <div class="col-sm-6">
+            <h4>Contenido del NODO {{ currentNode.id }} <span class="label label-default">{{ listaDocumentos.length }}</span></h4>
+            <div class="list-group" id="viewerDocs" ng-controller="documentoController">
+              <div class="list-group-item" ng-repeat="documento in listaDocumentos" ng-class="{ 'disabled':  documento.consultar == 0 }" tooltip="{{( documento.consultar == 0 ? 'No disponible para su perfil' : '' )}}">
+                <strong> {{ documento.nombreDocumento }}</strong> {{ documento.descripcion }}
+                <div class="botoneraDocumento" ng-hide="documento.cargar != 0 || documento.consultar == 0">
+                  <button type="button" class="btn btn-primary btn-xs" tooltip="{{ documento.consultar == 1 ? 'Ver documento' : 'No puede realizar está acción' }}" ng-class="{ 'disabled': documento.consultar != 1 }" ng-click="VerDocumento(documento)">
+                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 
+                  </button>
+                  <a type="button" class="btn btn-info btn-xs" tooltip="Descargar" href="{{ documento.Ruta }}" ng-class="{ 'disabled': documento.descargar != 1 }" download>
+                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 
+                  </a>
+                  <button type="button" class="btn btn-success btn-xs" tooltip="Enviar" ng-click="ShowEnviar(documento)" ng-class="{ 'disabled': documento.enviarEmail != 1 }">
+                    <span class="glyphicon glyphicon-send" aria-hidden="true"></span>  
+                  </button>
+                </div>
+                <div class="botoneraDocumento" ng-hide="documento.cargar == 0 || documento.consultar == 0">
+                  <button type="button" class="btn btn-warning btn-xs" tooltip="Cargar documento" ng-click="ShowCargar(documento)">
+                    <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"></span>  
+                  </button>
+                </div> 
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <h4>Alertas <span class="label label-default">{{ listaAlertas.length }}</span></h4>
+            <div class="alert alert-warning alert-dismissible" role="alert"  ng-repeat="alerta in listaAlertas">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>{{ alerta.nombre + '!  '}}</strong> {{ alerta.descripcion }}
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+      </section>
+    </div>
+
+
+  
+
+</div>
+
+<script type="text/javascript">
+  function nodisponible() {
+       var scope = angular.element($("#viewerDocs")).scope();
+        scope.$apply(function(){
+            scope.NoDisponible();
+        })
+  }
+</script>
+
+

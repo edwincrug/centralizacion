@@ -3,7 +3,23 @@ var env = process.env.NODE_ENV || 'production',
     swig = require('swig'),
     bodyParser = require('body-parser'),
     middlewares = require('./middlewares/admin'),
-    router = require('./website/router');
+    router = require('./website/router'),
+    multer  = require('multer');
+    var path = require('path');
+    var storage = multer.diskStorage({
+                      destination: function (req, file, cb) {
+                        cb(null, __dirname + '/uploads')
+                      },
+                      filename: function (req, file, cb) {
+                        cb(null, file.originalname)
+                      }
+                    });
+
+    var upload = multer({ storage: storage })
+
+    
+    //Alta de opciones
+    var done=false;
 
 
 var ExpressServer = function(config){
@@ -22,6 +38,8 @@ var ExpressServer = function(config){
     this.expressServer.set('views', __dirname + '/website/views/templates');
     swig.setDefaults({varControls:['[[',']]']});
 
+    //////////////////////////////////////////////////////////////
+
     if(env == 'development'){
         console.log('OK NO HAY CACHE');
         this.expressServer.set('view cache', false);
@@ -38,6 +56,39 @@ var ExpressServer = function(config){
             this.router(controller,funcionalidad,method,url);
         }
     } 
+
+    //Servimos el archivo angular
+    this.expressServer.get('/upload', function(req, res){
+        res.write('Hola, Mundo!');
+        res.end();
+    });
+
+    // //Configuracion de MULTER
+
+    this.expressServer.get('/uploader',function(req,res){
+         res.sendfile('app/static/uploader.htm');
+    });
+
+  this.expressServer.get('/success',function(req,res){
+         res.sendfile('app/static/success.htm');
+    });
+
+    // this.expressServer.post('/api/photo',function(req,res){
+    //     upload(req,res,function(err) {
+    //         if(err) {
+    //             return res.end("Error uploading file.");
+    //         }
+    //         res.end("File is uploaded");
+    //     });
+    // });
+
+    this.expressServer.post('/profile', upload.single('avatar'), function (req, res, next) {
+      // req.file is the `avatar` file 
+      // req.body will hold the text fields, if there were any 
+      var x = req.file;
+      res.writeHead(301,{Location: '/success'});
+      res.end();
+    })
 
     //Servimos el archivo angular
     this.expressServer.get('*', function(req, res){
