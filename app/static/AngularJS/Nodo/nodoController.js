@@ -1,4 +1,4 @@
-registrationModule.controller("nodoController", function ($scope, $rootScope, localStorageService, alertFactory, nodoRepository, documentoRepository, alertaRepository) {
+registrationModule.controller("nodoController", function ($scope, $rootScope, localStorageService, alertFactory, nodoRepository, documentoRepository, alertaRepository, empleadoRepository) {
 
     //Propiedades
     $scope.isLoading = false;
@@ -6,7 +6,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     $scope.perfil = 1;
 
     //Deshabilitamos el clic derecho en toda la aplicación
-    window.frames.document.oncontextmenu = function(){ alertFactory.error('Función deshabilitada en digitalización.'); return false; };
+    //window.frames.document.oncontextmenu = function(){ alertFactory.error('Función deshabilitada en digitalización.'); return false; };
 
     //Mensajes en caso de error
     var errorCallBack = function (data, status, headers, config) {
@@ -16,21 +16,38 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Grupo de funciones de inicio
     $scope.init = function () {
-        //Variable controladora de loading
+        //Obtengo los datos del empleado loguado
+        empleadoRepository.get(getParameterByName('employee'))
+            .success(getEmpleadoSuccessCallback)
+            .error(errorCallBack);
+    };
 
+    var getEmpleadoSuccessCallback = function (data, status, headers, config) {
+        $rootScope.empleado = data;
         //Obtenemos la lista de nodos completos
-        ObtieneNodos(getParameterByName('id'),$scope.idProceso,$scope.perfil);
+        if(getParameterByName('id')){
+            
+            //Obtengo el encabezado del expediente
+            nodoRepository.getHeader(getParameterByName('id'),$rootScope.empleado.idUsuario)
+                .success(obtieneHeaderSuccessCallback)
+                .error(errorCallBack);
+        }
+        
+    };
+
+    //Success al obtener expediente
+    var obtieneHeaderSuccessCallback = function (data, status, headers, config) {
+        //Asigno el objeto encabezado
+        $scope.expediente = data;
+        //Obtengo la información de los nodos
+        nodoRepository.getAll(getParameterByName('id'),$scope.idProceso,$rootScope.empleado.idPerfil)
+            .success(obtieneNodosSuccessCallback)
+            .error(errorCallBack);
     };
 
     ////////////////////////////////////////////////////////////////////////////
     //Genero Nodos
     ////////////////////////////////////////////////////////////////////////////
-    var ObtieneNodos = function(folio,idproceso,idprocesoidproceso) {
-        nodoRepository.getAll(folio,idproceso,idproceso)
-            .success(obtieneNodosSuccessCallback)
-            .error(errorCallBack);
-    };
-
     var obtieneNodosSuccessCallback = function (data, status, headers, config) {
         //$scope.listaNodos = _Nodes;
         $scope.listaNodos = data;
@@ -60,7 +77,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     };
 
     var GetCurrentPage = function(){
-        $scope.currentPage = 1;
+        $scope.currentPage = $scope.expediente.nodoActual;
     };
 
     ////////////////////////////////////////////////////////////////////////////

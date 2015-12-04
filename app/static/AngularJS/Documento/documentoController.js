@@ -86,7 +86,7 @@
     $scope.FinishUpload = function(name){
         alertFactory.success('Cool ' + name);
         var doc = $rootScope.currentUpload;
-       // documentoRepository.saveDocument(doc.folio, doc.idDocumento, 1, 1, doc.idNodo, 1, name)
+       // documentoRepository.saveDocument(doc.folio, doc.idDocumento, 1, 1, doc.idNodo, 1, global_settings.uploadPath + name)
          //   .success(saveDocumentSuccessCallback)
            // .error(errorCallBack);
     };

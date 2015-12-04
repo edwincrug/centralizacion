@@ -1,11 +1,18 @@
 ﻿registrationModule.controller("searchController", function ($scope, $rootScope, localStorageService, alertFactory, searchRepository) {
 
     //Propiedades
-     //$rootScope.hasExp = true;
+    $rootScope.searchlevel = 1;
+
+    //Desconfiguramos el clic izquierdo en el frame contenedor de documento
+    var errorCallBack = function (data, status, headers, config) {
+        $('#btnEnviar').button('reset');
+        alertFactory.error('Ocurrio un problema');
+    };
 
     //Grupo de funciones de inicio
     $scope.init = function () {
         //$rootScope.hasExp = true;
+        $scope.loadDivision();
     };
 
     $scope.Search = function() {
@@ -41,12 +48,46 @@
     //////////////////////////////////////////////////////////////////////////
     //Establece la división
     //////////////////////////////////////////////////////////////////////////
+    var getDivisionSuccessCallback = function (data, status, headers, config) {
+        $rootScope.listaDivisiones = data;
+    }
+
+    $scope.loadDivision = function() {
+        searchRepository.getDivision()
+            .success(getDivisionSuccessCallback)
+            .error(errorCallBack);
+    }
+
     $scope.SetDivision = function(div) {
         $rootScope.division = div; 
+        $rootScope.searchlevel = 2;
+        $scope.LoadEmpresa($rootScope.empleado.idEmpleado);
+
     };
 
     $scope.ClearDivision = function() {
-        $rootScope.division = ''; 
+        $rootScope.division = null; 
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    //Establece la empresa
+    //////////////////////////////////////////////////////////////////////////
+    var getEmpresaSuccessCallback = function (data, status, headers, config) {
+        $rootScope.listaEmpresas = data;
+    }
+
+    $scope.LoadEmpresa = function(idempleado) {
+        searchRepository.getEmpresa(idempleado)
+            .success(getEmpresaSuccessCallback)
+            .error(errorCallBack);
+    }
+
+    $scope.SetEmpresa = function(emp) {
+        $rootScope.empresa = emp; 
+    };
+
+    $scope.ClearEmpresa = function() {
+        $rootScope.empresa = null; 
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -57,9 +98,14 @@
     };
 
     $scope.ClearDepartamento = function() {
-        $rootScope.departamento = ''; 
+        $rootScope.departamento = null; 
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    //Limpia la selección de acuerdo al nivel de búsqueda
+
+
+    //////////////////////////////////////////////////////////////////////////
     //DatePicker
     $scope.today = function () {
         $scope.dt1 = new Date();

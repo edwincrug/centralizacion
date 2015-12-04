@@ -40,98 +40,74 @@
   <base href='/'>
 </head>
 <body ng-app="registrationModule">
-
-  <div id="st-container" ng-controller="searchController">
+  <!-- Contenedor de información -->
+  <div id="st-container" ng-controller="searchController" ng-init="init()">
     <!-- content push wrapper -->
     <div class="st-pusher">
       <nav class="st-menu st-effect-3" id="menu-3">
         <h2 class="icon h2extends"><span class="glyphicon glyphicon-search headSearch" aria-hidden="true"></span> Nueva Búsqueda</h2>
         <ul>
           <li>
-            <div class="labely" href="#">División</div>
+            <div class="labely">División</div>
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="division" disabled>
+              <input type="text" class="form-control" ng-model="division.nombre" readonly>
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="ClearDivision()">
                   <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a ng-click="SetDivision('Administración')">Administración</a></li>
-                  <li><a ng-click="SetDivision('Automóviles')">Automóviles</a></li>
-                  <li><a ng-click="SetDivision('Camiones')">Camiones</a></li>
-                  <li><a ng-click="SetDivision('Taller')">Taller</a></li>
+                  <li ng-repeat="division in listaDivisiones"><a ng-click="SetDivision(division)">{{ division.nombre }}</a></li>
                 </ul>
               </div><!-- /btn-group -->
             </div><!-- /input-group -->
           </li>
           <li>
-            <div class="labely" href="#">Empresa</div>
+            <div class="labely">Empresa</div>
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="marca" disabled>
+              <input type="text" class="form-control" ng-model="marca.nombre" readonly>
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="marca = ''">
+                <button type="button" class="btn btn-default" ng-click="marca = ''" ng-class="{ 'disabled': searchlevel < 2 }">
                   <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
                 </button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{ 'disabled': searchlevel < 2 }"><span class="glyphicon glyphicon-menu-down" aria-hidden="true" ></span></button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li ng-repeat="empresa in listaEmpresas"><a ng-click="SetEmpresa(division)">{{ division.nombre }}</a></li>
+                </ul>
+              </div><!-- /btn-group -->
+            </div><!-- /input-group -->
+          </li>
+          <li>
+            <div class="labely">Agencia</div>
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="sucursal" readonly>
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="sucursal = ''" ng-class="{ 'disabled': searchlevel < 3 }">
+                  <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{ 'disabled': searchlevel < 3 }"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li><a href="#"></a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
                 </ul>
               </div><!-- /btn-group -->
             </div><!-- /input-group -->
           </li>
           <li>
-            <div class="labely" href="#">Agencia</div>
-            <div class="input-group">
-              <input type="text" class="form-control" ng-model="sucursal" disabled>
-<!--               <div class="input-group-btn">
-                 <button type="button" class="btn btn-default" ng-click="sucursal = ''">
-                  <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
-                </button>
-                <button type="button" class="btn btn-default" ng-click="ShowSearchSucursal()"><span class="glyphicon glyphicon-screenshot"></span></button>
-              </div> -->
-              <div class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="sucursal = ''">
-                  <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
-                </button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="#"></a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </div><!-- /btn-group -->
-            </div><!-- /input-group -->
-          </li>
-          <li>
-            <div class="labely" href="#">Departamento</div>
+            <div class="labely">Departamento</div>
             <div class="input-group">
               <input type="text" class="form-control" ng-model="departamento" disabled>
               <div class="input-group-btn">
-                 <button type="button" class="btn btn-default" ng-click="ClearDepartamento()">
+                 <button type="button" class="btn btn-default" ng-click="ClearDepartamento()" ng-class="{ 'disabled': searchlevel < 4 }">
                   <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
                 </button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{ 'disabled': searchlevel < 4 }"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li><a ng-click="SetDepartamento('Unidades Nuevas')">Unidades Nuevas</a></li>
-                  <li><a href="#">Unidades Seminuevas</a></li>
-                  <li><a href="#">Refacciones</a></li>
-                  <li><a href="#">Servicio</a></li>
-                  <li><a href="#">Otros conceptos</a></li>
-                  <li><a href="#">Accesorios</a></li>
                 </ul>
               </div><!-- /btn-group -->
             </div><!-- /input-group -->
           </li>
-
           <li>
-
             <div class="labely" href="#">Fecha</div>
             <div class="row">
               <div class="col-md-6">
@@ -142,7 +118,6 @@
                     </span>
                   </p>
               </div>
-              
               <div class="col-md-6">
                <p class="input-group">
                     <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
@@ -266,7 +241,7 @@
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown" id="mnuAvatar">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  <span class="blanco">Jose Juan Pérez</span>  
+                  <span class="blanco">{{ empleado.nombre }}</span>  
                   <img src="image/profile/man.jpg" id="avatar">
                   <span class="caret blanco"></span>
                 </a>
@@ -438,6 +413,7 @@
 <script src="helpers.js"></script>
 
 <!--Controllers-->
+<script src="AngularJS/Empleado/empleadoRepository.js"></script>
 <script src="AngularJS/Alerta/alertaRepository.js"></script>
 <script src="AngularJS/Documento/documentoRepository.js"></script>
 <script src="AngularJS/Documento/documentoController.js"></script>

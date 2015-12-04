@@ -8,6 +8,9 @@ registrationModule.factory('nodoRepository', function ($http) {
         getAll: function (folio,idproceso, perfil) {
             return $http.get(nodoUrl + '1|' + folio + '|' + idproceso + '|' + perfil);
         },
+        getHeader: function (folio, usuario) {
+            return $http.get(nodoUrl + '2|' + folio + '|' + usuario);
+        },
         update: function (id) {
             return $http.post(nodoUrl + '2|' + id);
         }

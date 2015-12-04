@@ -1,16 +1,68 @@
 <div cg-busy="myPromise" ng-init="init()" resize>
   <div id="contenedor">
+    <section id="header">
+      <div class="col-xs-9" id="folio">
+          {{ 'Orden de Compra: ' + expediente.folio }}
+        </div>
+        <div class="col-xs-3 estatus" id="estatus">
+         {{ expediente.estatusExpediente }}
+        </div>
+    </section>
+    <section id="details">
+      <div id="row data"> 
+        <div class="etiqueta">
+          Solicitante
+        </div>
+        <div class="texto">
+         {{ expediente.nombreUsuario }}
+        </div>
+      <div class="etiqueta">
+          Empresa
+        </div>
+        <div class="texto">
+         {{ expediente.empresa }}
+        </div>
+      <div class="etiqueta">
+          Agencia
+        </div>
+        <div class="texto">
+         {{ expediente.agencia }}
+        </div>
+      <div class="etiqueta">
+          Departamento
+        </div>
+        <div class="texto">
+         {{ expediente.departamento }}
+        </div>
+       <!--  <hr> -->
+        <div class="etiqueta">
+          Ult. Modificación
+        </div>
+        <div class="texto">
+         {{ expediente.fechaUltimoMovimiento }}
+        </div>
+      </div>
+    </section>
     <section id="navigator">
       <ul id="standard">
         <li ng-repeat="nodo in listaNodos">
           <img src="{{ 'image/' + nodo.imagen }}" class="logotipo"/>
-          <h4 class="nombre"> {{ nodo.nombre }}</h4>
-          <h5 class="descripcion"> {{ nodo.descripcion }}</h4>
+          <h4 class="nombre" tooltip="{{ nodo.descripcion }}"> {{ nodo.nombre }}</h4>
+          <h5 class="descripcion"> {{ }}</h4>
             <div class="alerta" ng-hide="{{ nodo.alertas == 0 }}">
               {{ nodo.alertas }}
             </div>
             <div class="numero">
               {{ nodo.id }}
+            </div>
+            <div class="cerradoLabel" ng-class="{ 'oculto': nodo.estatus == 2, 'cerradoCompletado': nodo.estatus == 3, 'cerradoPendiente': nodo.estatus == 1}">
+              {{ ( nodo.estatus == 3 ? 'Completado' : 'Pendiente' ) }}
+            </div>
+            <div class="desdeLabel" tooltip="Inicio" ng-hide=" nodo.fechaFin == null ">
+             <div class="glyphicon glyphicon-time desdeTexto" aria-hidden="true"></div><div class="desdeTexto">{{ nodo.fechaInicio | date:'MM/dd/yy @ h:mma'}}</div> 
+            </div>
+            <div class="hastaLabel" tooltip="Término" ng-hide=" nodo.fechaFin == null ">
+              <div class="glyphicon glyphicon-time desdeTexto" aria-hidden="true"></div><div class="desdeTexto">{{ nodo.fechaFin | date:'MM/dd/yy @ h:mma' }}</div>
             </div>
           </li>
         </ul>
@@ -19,15 +71,14 @@
         <div id="navigateControl">
           <nav id="navigate">
             <ul class="pagination">
-              <li><a class="prev anavigatorNode"><span aria-hidden="true">«</span></a></li>
-              <li ng-repeat="nodo in listaNodos" ng-class="{ 'active': nodo.active == 1, 'disabled': nodo.enabled == 0 }"><a ng-click="setPage($event,nodo)" tooltip="{{ nodo.nombre + ( nodo.enabled == 0 ? ' (No disponible para su perfil)' : '') }}" ng-class="{ 'nodoDisabled': nodo.enabled == 0 }" class="anavigatorNode">{{ nodo.id }}</a></li>
-              <li><a class="next anavigatorNode"><span aria-hidden="true">»</span></a></li>
+              <li><a class="prev anavigatorNode" tooltip="Nodo Anterior"><span aria-hidden="true">«</span></a></li>
+              <li ng-repeat="nodo in listaNodos" ng-class="{ 'active': nodo.active == 1, 'disabled': nodo.enabled == 0 }"><a ng-click="setPage($event,nodo)" tooltip="{{ nodo.nombre + ( nodo.enabled == 0 ? ' (No disponible para su perfil)' : '') }}" ng-class="{ 'cerrado': nodo.estatus == 3 && nodo.active != 1, 'nodoDisabled': nodo.enabled == 0 }" class="anavigatorNode">{{ nodo.id }}</a></li>
+              <li><a class="next anavigatorNode" tooltip="Siguiente Nodo"><span aria-hidden="true">»</span></a></li>
             </ul>
           </nav>
         </div>
         <hr />
       </section>
-
       <section id="loader" ng-show="isLoading">
         <div class="loading">
           <div class="windows8">
@@ -88,19 +139,15 @@
         <br>
       </section>
     </div>
+  </div>
 
-
-  
-
-</div>
-
-<script type="text/javascript">
+  <script type="text/javascript">
   function nodisponible() {
-       var scope = angular.element($("#viewerDocs")).scope();
-        scope.$apply(function(){
-            scope.NoDisponible();
-        })
-  }
-</script>
+   var scope = angular.element($("#viewerDocs")).scope();
+   scope.$apply(function(){
+    scope.NoDisponible();
+  })
+ }
+ </script>
 
 

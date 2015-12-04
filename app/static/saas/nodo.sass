@@ -1,3 +1,69 @@
+/* Encabezado del Nodo */
+#details
+    width: 12%
+    position: absolute
+    right: 0
+    border-style: solid
+    border-color: #BBB9B9
+    background-color: rgba(204, 203, 203, 0.27)
+    border-left-width: 1px
+    border-top-width: 1px
+    border-bottom-width: 1px
+    border-right-width: 0px
+    padding: 4px
+    font-size: 11px
+    border-radius: 5px 0px 0px 5px
+    margin-top: 47px
+
+#header
+    position: absolute
+    top: 0
+    left: 0
+    width: 400px
+    height: 33px
+    margin-top: -20px
+    margin-left: calc(50% - 200px)
+    border: 1px solid #BBB9B9
+    background-color: rgba(204, 204, 204, 0.57)
+    border-radius: 0px 0px 5px 5px
+
+#folio
+    font-size: 16px
+    margin-top: 4px
+    margin-left: -1px
+    font-weight: 500
+    color: rgb(97, 96, 96)
+    padding-left: 0
+    padding-right: 0
+    text-align: center
+
+#estatus
+    background-color: rgba(83, 181, 132, 0.88)
+    border: 1px solid rgba(83,181,132,0.88)
+    margin-top: -1px
+    height: 32px
+    margin-right: 0px
+    padding-top: 5px
+    border-radius: 0px 0px 5px 0px
+    position: absolute
+    right: 0
+    color: white
+    text-align: center
+
+.etiqueta
+    font-size: 10px
+    font-weight: 700
+    color: #38424E  
+
+.texto
+    color: #828282
+    font-weight: 300
+
+/* Contenedores */
+#navigator
+    padding-top: 16px
+
+/* Clases generales */
 .linea
     padding-left: 15px
     padding-right: 15px
@@ -25,17 +91,18 @@
     padding-top: 7px
     font-weight: bold
     font-size: 14px
+    z-index: 1
 
 .logotipo
-    padding-top: 5px
+    padding-top: 1px
 
 .nombre
     color: rgba(56, 66, 78, 0.8)
-    margin-top: -1px
+    margin-top: -5px
 
 .descripcion
     color: rgba(56, 66, 78, 0.51)
-    margin-top: -5px
+    margin-top: -7px
 
 .numero
     color: rgba(56, 66, 78, 0.51)
@@ -152,3 +219,55 @@
     display: block
     float: right
     margin-right: -10px
+
+.cerrado
+    background-color: rgba(51, 122, 183, 0.25) !important
+
+.cerradoLabel
+    position: absolute
+    top: 0
+    right: 0
+    font-size: 12px
+    text-align: -webkit-center
+    padding-left: 5px
+    color: white
+    width: 66px
+    height: 20px
+    padding-left: 0
+    padding-top: 0
+    padding-right: 0
+    font-weight: 100
+    border-radius: 0px 5px 0px 5px
+
+.cerradoCompletado
+    background-color: rgba(56, 66, 78, 0.91)
+
+.cerradoPendiente
+    background-color: rgba(185, 185, 185, 0.18)
+    color: rgba(128, 128, 128, 0.67)
+
+.oculto
+    display: none
+
+.desdeLabel
+    position: absolute
+    left: 0
+    bottom: 0
+    font-weight: 200
+    padding-bottom: 1px
+    padding-left: 2px
+    display: inline-block
+
+.desdeTexto
+    padding-left: 2px
+    display: inline-block
+    font-size: 11px
+
+.hastaLabel
+    position: absolute
+    right: 0
+    bottom: 0
+    font-weight: 200
+    padding-bottom: 1px
+    padding-left: 2px
+
