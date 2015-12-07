@@ -134,13 +134,14 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     /////////////////////////////////////////////////////////////////////////
     //Obtengo la lista de documentos disponibles por nodo
     /////////////////////////////////////////////////////////////////////////
-
+    //Success de carga de alertas
     var getAlertasSuccessCallback = function (data, status, headers, config) {
         $scope.isLoading = false; 
         $scope.listaAlertas = data;
         Apply();
     };
 
+    //Success de obtner documentos por nodo
     var getDocumentosSuccessCallback = function (data, status, headers, config) {
         $scope.listaDocumentos = data;
         alertaRepository.getByNodo($scope.idProceso, $scope.currentNode.id,$scope.currentNode.folio)
@@ -148,13 +149,18 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             .error(errorCallBack);
     };
 
+    //Carga los documentos del nodo activo
     var LoadActiveNode = function(){
-        $scope.isLoading = true;
-        Apply();
-
-        documentoRepository.getByNodo($scope.currentNode.id,$scope.currentNode.folio,$scope.perfil)
-            .success(getDocumentosSuccessCallback)
-            .error(errorCallBack);
+        if($scope.currentNode.estatus != 1){
+            $scope.isLoading = true;
+            Apply();
+            //Consulta el repositorio
+            documentoRepository.getByNodo($scope.currentNode.id,$scope.currentNode.folio,$scope.perfil)
+                .success(getDocumentosSuccessCallback)
+                .error(errorCallBack);
+        }
+        else
+            alertFactory.warning('El nodo ' + $scope.currentNode.id + ' aún no se activa para el expediente actual. No existen documentos para mostrar.')
     };
 
     //Ejecuta un apply en funciones jQuery

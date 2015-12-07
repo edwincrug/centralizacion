@@ -21,13 +21,19 @@
         });
     };
 
+    //Script para salir
+    ///////////////////////////////////////////////////////////////////////////
+    $scope.Salir = function() {
+        var ventana = window.self;
+        ventana.opener = window.self;
+        ventana.close();
+    };
+
     $scope.ShowSearchSucursal = function() {
         $('#searchSucursal').modal('show');
-
     };
     $scope.ShowSearchProveedor = function() {
         $('#searchProveedor').modal('show');
-
     };
     $scope.ShowSearchSolicitante = function() {
         $('#searchSolicitante').modal('show');

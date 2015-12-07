@@ -41,3 +41,6 @@
 
 .action {
   width: 60px; }
+
+.seleccionable {
+  cursor: pointer; }

@@ -57,7 +57,7 @@
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li ng-repeat="division in listaDivisiones"><a ng-click="SetDivision(division)">{{ division.nombre }}</a></li>
+                  <li ng-repeat="division in listaDivisiones" class="seleccionable"><a ng-click="SetDivision(division)">{{ division.nombre }}</a></li>
                 </ul>
               </div><!-- /btn-group -->
             </div><!-- /input-group -->
@@ -236,7 +236,6 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown" id="mnuAvatar">
@@ -246,11 +245,7 @@
                   <span class="caret blanco"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
+                  <li class="seleccionable"><a ng-click="Salir()">Salir</a></li>
                 </ul>
               </li>
             </ul>
