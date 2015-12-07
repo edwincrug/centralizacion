@@ -46,7 +46,7 @@
     <section id="navigator">
       <ul id="standard">
         <li ng-repeat="nodo in listaNodos">
-          <img src="{{ 'image/' + nodo.imagen }}" class="logotipo"/>
+          <img src="{{ 'image/icons/' + nodo.imagen }}" class="logotipo"/>
           <h4 class="nombre" tooltip="{{ nodo.descripcion }}"> {{ nodo.nombre }}</h4>
           <h5 class="descripcion"> {{ }}</h4>
             <div class="alerta" ng-hide="{{ nodo.alertas == 0 }}">
