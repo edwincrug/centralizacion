@@ -92,15 +92,15 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             goToPage($scope.currentPage);
         }
         else{
-            alertFactory.warning('Nodo ' + $scope.currentPage + ' no disponible para su perfil.');
+            alertFactory.warning('El nodo ' + $scope.currentPage + ' no está disponible para su perfil.');
             $(button).click();
         }
     };
 
     //LLeva a un nodo específico desde la navegación
-    $scope.setPage = function(inner,nodo) {
+    $scope.setPage = function(nodo) {
         if(nodo.enabled != 0){
-            $scope.currentPage = inner.currentTarget.innerText;
+            $scope.currentPage = nodo.id;
             goToPage($scope.currentPage);  
         }
         else{
