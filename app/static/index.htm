@@ -65,14 +65,14 @@
           <li>
             <div class="labely">Empresa</div>
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="marca.nombre" readonly>
+              <input type="text" class="form-control" ng-model="empresa.nombre" readonly>
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="marca = ''" ng-class="{ 'disabled': searchlevel < 2 }">
+                <button type="button" class="btn btn-default" ng-click="ClearEmpresa()" ng-class="{ 'disabled': searchlevel < 2 }">
                   <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{ 'disabled': searchlevel < 2 }"><span class="glyphicon glyphicon-menu-down" aria-hidden="true" ></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li ng-repeat="empresa in listaEmpresas"><a ng-click="SetEmpresa(division)">{{ division.nombre }}</a></li>
+                  <li ng-repeat="empresa in listaEmpresas" class="seleccionable"<a ng-click="SetEmpresa(empresa)">{{ empresa.nombre }}</a></li>
                 </ul>
               </div><!-- /btn-group -->
             </div><!-- /input-group -->
@@ -80,14 +80,14 @@
           <li>
             <div class="labely">Agencia</div>
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="sucursal" readonly>
+              <input type="text" class="form-control" ng-model="agencia.nombre" readonly>
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="sucursal = ''" ng-class="{ 'disabled': searchlevel < 3 }">
+                <button type="button" class="btn btn-default" ng-click="ClearAgencia()" ng-class="{ 'disabled': searchlevel < 3 }">
                   <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{ 'disabled': searchlevel < 3 }"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="#"></a></li>
+               <ul class="dropdown-menu dropdown-menu-right">
+                  <li ng-repeat="agencia in listaAgencias" class="seleccionable"<a ng-click="SetAgencia(agencia)">{{ agencia.nombre }}</a></li>
                 </ul>
               </div><!-- /btn-group -->
             </div><!-- /input-group -->
@@ -95,45 +95,42 @@
           <li>
             <div class="labely">Departamento</div>
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="departamento" disabled>
+              <input type="text" class="form-control" ng-model="departamento.nombre" disabled>
               <div class="input-group-btn">
                  <button type="button" class="btn btn-default" ng-click="ClearDepartamento()" ng-class="{ 'disabled': searchlevel < 4 }">
                   <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{ 'disabled': searchlevel < 4 }"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a ng-click="SetDepartamento('Unidades Nuevas')">Unidades Nuevas</a></li>
+                  <li ng-repeat="departamento in listaDepartamentos" class="seleccionable"<a ng-click="SetDepartamento(departamento)">{{ departamento.nombre }}</a></li>
                 </ul>
               </div><!-- /btn-group -->
             </div><!-- /input-group -->
           </li>
           <li>
-            <div class="labely" href="#">Fecha</div>
-            <div class="row">
-              <div class="col-md-6">
-                <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                  </p>
-              </div>
-              <div class="col-md-6">
-               <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                  </p>
-              </div>
+            <div class="labely" href="#">Fecha Desde</div>
+            <div class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </li>
+          <li>
+            <div class="labely" href="#">Fecha Hasta</div>
+            <div class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
             </div>
           </li>
           <li>
             <div class="labely" href="#">Proveedor</div>
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="proveedor" disabled>
+              <input type="text" class="form-control" ng-model="proveedor.Nombre" disabled>
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="proveedor = ''">
+                <button type="button" class="btn btn-default" ng-click="ClearProveedor()">
                   <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
                 </button>
                 <button type="button" class="btn btn-default" ng-click="ShowSearchProveedor()"><span class="glyphicon glyphicon-briefcase"></span></button>
@@ -143,19 +140,15 @@
           <li>
             <div class="labely" href="#">Tipo Orden</div>
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="tipo" disabled>
+              <input type="text" class="form-control" ng-model="tipo.nombre" disabled>
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="tipo = ''">
+                <button type="button" class="btn btn-default" ng-click="ClearTipo()">
                   <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="#">Pedido Especial</a></li>
-                  <li><a href="#">Autos Nuevos</a></li>
-                  <li><a href="#">Autos Seminuevos</a></li>
-                  <li><a href="#">Compras Varias</a></li>
-                  <li><a href="#">Refacciones</a></li>
-                </ul>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-repeat="tipo in listaTipos" class="seleccionable"<a ng-click="SetTipo(tipo)">{{ tipo.nombre }}</a></li>
+                  </ul>
               </div><!-- /btn-group -->
             </div><!-- /input-group -->
           </li>
@@ -263,14 +256,12 @@
 
 <script type="text/javascript">
   var nameDocument = '';
-
   function refresh() {
       var scope = angular.element($("#modalUpload")).scope();
       scope.$apply(function(){
         scope.FinishUpload(nameDocument);
       })
   }
-
   function setName(name){
       nameDocument = name; 
   }
@@ -280,7 +271,7 @@
 </script>
 
 
-<div class="modal fade" id="searchProveedor">
+<div class="modal fade" id="searchProveedor" ng-controller="searchController">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -289,9 +280,9 @@
       </div>
       <div class="modal-body">
                 <div class="input-group searchinResults">
-      <input type="text" class="form-control" placeholder="Introduzca un nombre o RFC...">
+      <input type="text" class="form-control" placeholder="Introduzca un nombre o RFC..." ng-model="textProveedor">
       <span class="input-group-btn">
-        <button class="btn btn-primary" type="button">Buscar</button>
+        <button class="btn btn-primary" type="button" ng-click="BuscarProveedor()">Buscar</button>
       </span>
     </div><!-- /input-group -->
         <div class="tableContent">
@@ -306,12 +297,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td> 1</td>
-                <td> ESPERANZA ARGUETA HERNANDEZ  </td>
-                <td> AUHE910719453 </td>
-                <td> 1</td>
-                <td> <button type="button" class="btn btn-default glyphicon glyphicon-hand-left" data-toggle="tooltip" data-placement="top" title="Cancelar" ng-click="EstableceSucursal('Corporativo');"></button> </td>
+              <tr ng-repeat="proveedor in listaProveedores">
+                <td> {{ proveedor.idProveedor }} </td>
+                <td> {{ proveedor.Nombre }} </td>
+                <td> {{ proveedor.RFC }} </td>
+                <td> {{ proveedor.Tipo }} </td>
+                <td> <button type="button" class="btn btn-default glyphicon glyphicon-hand-left" data-toggle="tooltip" data-placement="top" title="Seleccionar" ng-click="SetProveedor(proveedor);"></button> </td>
               </tr>
             </tbody>
           </table>

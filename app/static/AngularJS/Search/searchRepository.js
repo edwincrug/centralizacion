@@ -17,6 +17,15 @@ registrationModule.factory('searchRepository', function ($http) {
         getDepartamento: function (idempleado, idempresa, idsucursal) {
             return $http.get(searchUrl + '4|' + idempleado + '|' + idempresa + '|' + idsucursal);
         },
+        getTipos: function () {
+            return $http.get(searchUrl + '6|0');
+        },
+        getProveedor: function (cadena) {
+            return $http.get(searchUrl + '5|' + cadena);
+        },
+        getFolios: function (id) {
+            return $http.get(searchUrl + '7|' + id);
+        },
         update: function (id) {
             return $http.post(searchUrl + '2|' + id);
         }

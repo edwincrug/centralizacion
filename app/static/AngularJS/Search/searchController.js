@@ -13,6 +13,7 @@
     $scope.init = function () {
         //$rootScope.hasExp = true;
         $scope.loadDivision();
+        $scope.loadTipos();
     };
 
     $scope.Search = function() {
@@ -28,17 +29,6 @@
         ventana.opener = window.self;
         ventana.close();
     };
-
-    $scope.ShowSearchSucursal = function() {
-        $('#searchSucursal').modal('show');
-    };
-    $scope.ShowSearchProveedor = function() {
-        $('#searchProveedor').modal('show');
-    };
-    $scope.ShowSearchSolicitante = function() {
-        $('#searchSolicitante').modal('show');
-
-    };
     
     $scope.CloseGrid = function() {
     	$("#finder").animate({
@@ -49,6 +39,26 @@
 
     $scope.HideView = function() {
         //$rootScope.hasExp = false;
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+    //Carga los tipos de órden de compra
+    $scope.loadTipos = function() {
+        searchRepository.getTipos()
+            .success(getTiposSuccessCallback)
+            .error(errorCallBack);
+    };
+
+    var getTiposSuccessCallback = function (data, status, headers, config) {
+        $rootScope.listaTipos = data;
+    }
+
+    $scope.SetTipo = function(tip) {
+        $rootScope.tipo = tip;
+    };
+
+    $scope.ClearTipo = function() {
+        $rootScope.tipo = null;
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -65,14 +75,19 @@
     }
 
     $scope.SetDivision = function(div) {
+        $scope.ClearDivision();
         $rootScope.division = div; 
         $rootScope.searchlevel = 2;
-        $scope.LoadEmpresa($rootScope.empleado.idEmpleado);
+        $scope.LoadEmpresa();
 
     };
 
     $scope.ClearDivision = function() {
         $rootScope.division = null; 
+        $rootScope.searchlevel = 1;
+        $rootScope.empresa = null; 
+        $rootScope.agencia = null; 
+        $rootScope.departamento = null; 
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -82,25 +97,68 @@
         $rootScope.listaEmpresas = data;
     }
 
-    $scope.LoadEmpresa = function(idempleado) {
-        searchRepository.getEmpresa(idempleado)
+    $scope.LoadEmpresa = function() {
+        searchRepository.getEmpresa($rootScope.empleado.idUsuario)
             .success(getEmpresaSuccessCallback)
             .error(errorCallBack);
     }
 
     $scope.SetEmpresa = function(emp) {
+        $scope.ClearEmpresa();
         $rootScope.empresa = emp; 
+        $rootScope.searchlevel = 3;
+        $scope.LoadAgencia();
     };
 
     $scope.ClearEmpresa = function() {
         $rootScope.empresa = null; 
+        $rootScope.searchlevel = 2;
+        $rootScope.agencia = null; 
+        $rootScope.departamento = null; 
+    }
+    
+    //////////////////////////////////////////////////////////////////////////
+    //Establece la agencia
+    //////////////////////////////////////////////////////////////////////////
+    var getAgenciaSuccessCallback = function (data, status, headers, config) {
+        $rootScope.listaAgencias = data;
+    }
+
+    $scope.LoadAgencia = function() {
+        searchRepository.getSucursal($rootScope.empleado.idUsuario,$rootScope.empresa.idEmpresa)
+            .success(getAgenciaSuccessCallback)
+            .error(errorCallBack);
+    }
+
+    $scope.SetAgencia = function(age) {
+        $scope.ClearAgencia();
+        $rootScope.agencia = age; 
+        $rootScope.searchlevel = 4;
+        $scope.LoadDepartamento();
+    };
+
+    $scope.ClearAgencia = function() {
+        $rootScope.agencia = null; 
+        $rootScope.searchlevel = 3;
+        $rootScope.departamento = null; 
     }
 
     //////////////////////////////////////////////////////////////////////////
     //Departamento
     //////////////////////////////////////////////////////////////////////////
-    $scope.SetDepartamento = function(div) {
-        $rootScope.departamento = div; 
+    var getDepartamentoSuccessCallback = function (data, status, headers, config) {
+        $rootScope.listaDepartamentos = data;
+    }
+
+    $scope.LoadDepartamento = function() {
+        searchRepository.getDepartamento($rootScope.empleado.idUsuario, $rootScope.empresa.idEmpresa, $rootScope.agencia.idSucursal)
+            .success(getDepartamentoSuccessCallback)
+            .error(errorCallBack);
+    }
+
+    $scope.SetDepartamento = function(dep) {
+        $rootScope.departamento = dep; 
+        $rootScope.searchlevel = 5;
     };
 
     $scope.ClearDepartamento = function() {
@@ -108,8 +166,30 @@
     }
 
     //////////////////////////////////////////////////////////////////////////
-    //Limpia la selección de acuerdo al nivel de búsqueda
+    //Obtiene los proveedores
+    $scope.ShowSearchProveedor = function() {
+        $('#searchProveedor').modal('show');
+    };
 
+    $scope.BuscarProveedor = function(){
+         searchRepository.getProveedor($scope.textProveedor)
+            .success(getProveedorSuccessCallback)
+            .error(errorCallBack);
+    };
+
+    var getProveedorSuccessCallback = function (data, status, headers, config) {
+        $rootScope.listaProveedores = data;
+        alertFactory.success('Se ha(n) encontrado ' + data.length + ' proveedor(es) que coniciden con la búsqueda.');
+    };
+
+    $scope.SetProveedor = function(pro) {
+        $rootScope.proveedor = pro;
+        $('#searchProveedor').modal('hide');
+    };
+
+    $scope.ClearProveedor = function() {
+        $rootScope.proveedor = null; 
+    }
 
     //////////////////////////////////////////////////////////////////////////
     //DatePicker
