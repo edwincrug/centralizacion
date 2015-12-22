@@ -17,9 +17,11 @@
     };
 
     $scope.Search = function() {
-    	$("#finder").animate({
-            width: "show"
-        });
+        $('#searchResults').modal('show');
+
+    	// $("#finder").animate({
+     //        width: "show"
+     //    });
     };
 
     //Script para salir

@@ -25,13 +25,16 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     var getEmpleadoSuccessCallback = function (data, status, headers, config) {
         $rootScope.empleado = data;
         //Obtenemos la lista de nodos completos
-        if(getParameterByName('id')){
-            
-            //Obtengo el encabezado del expediente
-            nodoRepository.getHeader(getParameterByName('id'),$rootScope.empleado.idUsuario)
-                .success(obtieneHeaderSuccessCallback)
-                .error(errorCallBack);
+        if($rootScope.empleado != null){
+            if(getParameterByName('id')){
+                //Obtengo el encabezado del expediente
+                nodoRepository.getHeader(getParameterByName('id'),$rootScope.empleado.idUsuario)
+                    .success(obtieneHeaderSuccessCallback)
+                    .error(errorCallBack);
+            }
         }
+        else
+            alertFactory.error('El empleado no existe en el sistema.');
         
     };
 
@@ -39,10 +42,23 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     var obtieneHeaderSuccessCallback = function (data, status, headers, config) {
         //Asigno el objeto encabezado
         $scope.expediente = data;
-        //Obtengo la información de los nodos
-        nodoRepository.getAll(getParameterByName('id'),$scope.idProceso,$rootScope.empleado.idPerfil)
-            .success(obtieneNodosSuccessCallback)
-            .error(errorCallBack);
+        if($scope.expediente != null){
+            //Obtengo la información de los nodos
+            nodoRepository.getAll(getParameterByName('id'),$scope.idProceso,$rootScope.empleado.idPerfil)
+                .success(obtieneNodosSuccessCallback)
+                .error(errorCallBack);
+        }
+        else
+            alertFactory.error('No existe información para este expediente.');
+    };
+
+    //Abre una orden padre o hijo
+    $scope.VerOrdenPadre = function(exp){
+        location.href = '/?id=' + exp.folioPadre + '&employee=1';
+    };
+
+    $scope.VerOrdenHijo = function(exp){
+        location.href = '/?id=' + exp.folioHijo + '&employee=1';
     };
 
     ////////////////////////////////////////////////////////////////////////////
@@ -168,5 +184,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest')
             $scope.$apply();
     };
+
+    ///
 
 });
