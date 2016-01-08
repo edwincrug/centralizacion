@@ -6,6 +6,7 @@
         controller: 'nodoController'
     });
 
+
     $locationProvider.html5Mode(true);
 });
 
