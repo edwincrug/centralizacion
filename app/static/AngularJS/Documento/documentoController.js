@@ -10,17 +10,29 @@
     //Métodos
     $scope.VerDocumento = function(doc) {
         if(doc.consultar == 1){
-            //Muestra Documento
-            var pdf_link = doc.Ruta;
-            var titulo = doc.folio + ' :: ' + doc.descripcion;
-            //var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
-            var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="application/pdf" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
-            $.createModal({
-                title: titulo,
-                message: iframe,
-                closeButton: false,
-                scrollable: false
-            }); 
+            //alert(doc.idDocumento);
+            if(doc.idDocumento == 14)
+            {               
+                $scope.folioActual = doc.folio;
+                //alert(doc.idDocumento);
+                documentoRepository.getDocsByFolio(doc.folio)//$rootScope.currentDocument.folio)
+                .success(muestraPolizasSuccessCallback)
+                .error(errorCallBack);
+            }
+            else
+             {   
+                //Muestra Documento
+                var pdf_link = doc.Ruta;
+                var titulo = doc.folio + ' :: ' + doc.descripcion;
+                //var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
+                var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="application/pdf" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
+                $.createModal({
+                    title: titulo,
+                    message: iframe,
+                    closeButton: false,
+                    scrollable: false
+                }); 
+            }
         }
         else{
             alertFactory.warning('Acción no permitida para su perfil.');
@@ -49,7 +61,48 @@
         alertFactory.success('Documento enviado correctamente.');
         $('#btnEnviar').button('reset');
         $('#modalSend').modal('hide');
-    }
+    };
+
+    //LQMA 19012015
+    var muestraPolizasSuccessCallback = function (data, status, headers, config) {
+        var iframe = '<div id="hideFullContent"><div><h3>' + $scope.folioActual + '</h3><ul class="nav nav-tabs"> ';           
+        
+        angular.forEach(data, function (value, key) {
+   
+            if(key == 0)
+            {
+               iframe = iframe + '<li class="active"><a data-toggle="tab" href="#divMenu'+ key +'">Poliza '+(key+1)+' </a></li>';
+            }
+            else    
+            {
+                iframe = iframe + '<li><a data-toggle="tab" href="#divMenu'+ key +'">Poliza '+(key+1)+' </a></li>';
+            }
+        });   
+
+        iframe = iframe + '</ul></div> <div class="tab-content">';
+
+         angular.forEach(data, function (value, key) {
+                
+            if(key == 0)
+            {
+               iframe = iframe + '<div class="tab-pane active" id="divMenu'+key+ '"><iframe src="'+value+'" width="560" height="350" allowfullscreen="allowFullScreen"></iframe></div>';
+            }
+            else    
+            {
+                iframe = iframe + '<div class="tab-pane" id="divMenu'+key+ '"><iframe src="'+value+'" width="560" height="350" allowfullscreen="allowFullScreen"></iframe></div>';
+            }
+        });   
+
+        iframe = iframe + '</div></div>';
+
+        $.createModal({
+            title: "Polizas de Transferencia",//titulo,
+            message: iframe,
+            closeButton: false,
+            scrollable: false
+        });
+            
+    };
 
     $scope.EnviarDocumento = function() {
         if($rootScope.currentDocument.consultar == 1){
