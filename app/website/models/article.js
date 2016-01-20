@@ -1,12 +1,12 @@
 // var http = require('http');
-var edge = require('edge');
+//var edge = require('edge');
 
 var params = {
     connectionString: "Data Source=173.192.85.206;Initial Catalog=node-test;user id=asp_user;password=zenttre",
     source: "EXEC SEL_PRUEBA_SP"
 };
 
-var getTopUsers = edge.func('sql', params);
+//var getTopUsers = edge.func('sql', params);
 
 var Article = function(conf){
 	conf = conf || {};
@@ -25,7 +25,7 @@ Article.prototype.get = function(query,callback){
 
 	/*res.writeHead(200, { 'Content-Type': 'text/html' });*/
  
-    getTopUsers(null, function (error, result) {
+    /*getTopUsers(null, function (error, result) {
     	callback(error, result)
 
        /* if (error) { logError(error, res); return; }
@@ -38,8 +38,8 @@ Article.prototype.get = function(query,callback){
             res.end("</ul>");
         }
         else {
-        }*/
-    });
+        }
+    });*/
 
 /*	this.model.find(query).exec(function(err,doc){
 		callback(doc)

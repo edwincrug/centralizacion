@@ -1,5 +1,5 @@
-var conf = require('../../../conf'),
-    edge = require('edge');
+var conf = require('../../../conf');
+//,edge = require('edge');
 
 
 var Login = function(config){
@@ -15,7 +15,7 @@ var Login = function(config){
 //Funciones
 /*var loginUser = edge.func('sql', param);*/
 
-var loginUser = edge.func('sql', function () {/*
+/*var loginUser = edge.func('sql', function () {/*
     SELECT emp.[idEmpleado]
           ,emp.[nombre]
           ,emp.[apellidoPaterno]
@@ -36,14 +36,14 @@ var loginUser = edge.func('sql', function () {/*
       where lgn.usuario = @user
       AND lgn.contrasena = @contrasena
       AND emp.idEmpresa = 1
-*/});
+});*/
 
 
 
 Login.prototype.get = function(params,callback){
-    loginUser(params, function (error, result) {
+    /*loginUser(params, function (error, result) {
     	callback(error, result)
-    });
+    });*/
 }
 
 module.exports = Login; 
