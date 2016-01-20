@@ -12,7 +12,7 @@
      <span class="glyphicon glyphicon-backward" aria-hidden="true"></span> {{ expediente.folioPadre }}
    </section>
    <section id="extends" tooltip="Orden hijo" ng-click="VerOrdenHijo(expediente)" ng-hide=" expediente.folioHijo == null ">  
-     <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> {{ expediente.folioHijo }}
+      {{ expediente.folioHijo }} <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
    </section>
    <section id="details">
     <div id="row data"> 

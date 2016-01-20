@@ -21,7 +21,6 @@
                 closeButton: false,
                 scrollable: false
             }); 
-
         }
         else{
             alertFactory.warning('Acción no permitida para su perfil.');
