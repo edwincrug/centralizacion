@@ -68,50 +68,35 @@
 
     //LQMA 19012015
     var muestraPolizasSuccessCallback = function (data, status, headers, config) {
-        //alert('ssss');
-        //alert(data);
-        
-        //var pdf_link = doc.Ruta;
-        /*var titulo = doc.folio; // + ' :: ' + doc.descripcion; */
-        //var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
-        var iframe = '<div id="hideFullContent"><div><h3>' + $scope.folioActual + '</h3><ul class="nav nav-tabs"> ';
-        var aux = 0;           
+        var iframe = '<div id="hideFullContent"><div><h3>' + $scope.folioActual + '</h3><ul class="nav nav-tabs"> ';           
         
         angular.forEach(data, function (value, key) {
-                
-            if(aux == 0)
+   
+            if(key == 0)
             {
-               iframe = iframe + '<li class="active"><a data-toggle="tab" href="#divMenu'+ aux +'">Poliza '+(aux+1)+' </a></li>';
+               iframe = iframe + '<li class="active"><a data-toggle="tab" href="#divMenu'+ key +'">Poliza '+(key+1)+' </a></li>';
             }
             else    
             {
-                iframe = iframe + '<li><a data-toggle="tab" href="#divMenu'+ aux +'">Poliza '+(aux+1)+' </a></li>';
+                iframe = iframe + '<li><a data-toggle="tab" href="#divMenu'+ key +'">Poliza '+(key+1)+' </a></li>';
             }
-            
-            aux = aux + 1;
         });   
 
         iframe = iframe + '</ul></div> <div class="tab-content">';
-        
-        aux = 0;
 
          angular.forEach(data, function (value, key) {
                 
-            if(aux == 0)
+            if(key == 0)
             {
-               iframe = iframe + '<div class="tab-pane active" id="divMenu'+aux+ '"><iframe src="'+value+'" width="560" height="350" allowfullscreen="allowFullScreen"></iframe></div>';
+               iframe = iframe + '<div class="tab-pane active" id="divMenu'+key+ '"><iframe src="'+value+'" width="560" height="350" allowfullscreen="allowFullScreen"></iframe></div>';
             }
             else    
             {
-                iframe = iframe + '<div class="tab-pane" id="divMenu'+aux+ '"><iframe src="'+value+'" width="560" height="350" allowfullscreen="allowFullScreen"></iframe></div>';
+                iframe = iframe + '<div class="tab-pane" id="divMenu'+key+ '"><iframe src="'+value+'" width="560" height="350" allowfullscreen="allowFullScreen"></iframe></div>';
             }
-            
-            aux = aux + 1;
         });   
 
-        iframe = iframe + '</div></div>';        
-
-        //alert(iframe);
+        iframe = iframe + '</div></div>';
 
         $.createModal({
             title: "Polizas de Transferencia",//titulo,
