@@ -63,6 +63,11 @@ var ExpressServer = function(config){
         res.end();
     });
 
+    //Recibo las variables de login
+    this.expressServer.post('/', function(req, res){
+        console.log(req.body);
+    });
+    
     // //Configuracion de MULTER
 
     this.expressServer.get('/uploader',function(req,res){

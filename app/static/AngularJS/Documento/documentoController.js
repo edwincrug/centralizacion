@@ -65,17 +65,16 @@
 
     //LQMA 19012015
     var muestraPolizasSuccessCallback = function (data, status, headers, config) {
-        var iframe = '<div id="hideFullContent"><div><h3>' + $scope.folioActual + '</h3><ul class="nav nav-tabs"> ';           
+        var iframe = '<div id="hideFullContent"><div><ul class="nav nav-tabs"> ';           
         
         angular.forEach(data, function (value, key) {
-   
             if(key == 0)
             {
-               iframe = iframe + '<li class="active"><a data-toggle="tab" href="#divMenu'+ key +'">Poliza '+(key+1)+' </a></li>';
+               iframe = iframe + '<li class="active"><a data-toggle="tab" href="#divMenu'+ key +'" target="_self">Póliza '+(key+1)+' </a></li>';
             }
             else    
             {
-                iframe = iframe + '<li><a data-toggle="tab" href="#divMenu'+ key +'">Poliza '+(key+1)+' </a></li>';
+                iframe = iframe + '<li><a data-toggle="tab" href="#divMenu'+ key +'" target="_self">Póliza '+(key+1)+' </a></li>';
             }
         });   
 
@@ -96,7 +95,7 @@
         iframe = iframe + '</div></div>';
 
         $.createModal({
-            title: "Polizas de Transferencia",//titulo,
+            title: "Pólizas de Transferencia",//titulo,
             message: iframe,
             closeButton: false,
             scrollable: false
