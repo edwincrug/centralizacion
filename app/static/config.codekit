@@ -35,6 +35,28 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/AngularJS\/Documento\/documentoController.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/AngularJS\/Documento\/documentoController.js",
+		"outputAbbreviatedPath": "\/AngularJS\/Documento\/min\/documentoController-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/AngularJS\/Documento\/documentoRepository.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/AngularJS\/Documento\/documentoRepository.js",
+		"outputAbbreviatedPath": "\/AngularJS\/Documento\/min\/documentoRepository-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/AngularJS\/Documento\/min\/documentoController-min.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -156,6 +178,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/AngularJS\/RegistrationModule.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/AngularJS\/RegistrationModule.js",
+		"outputAbbreviatedPath": "\/AngularJS\/min\/RegistrationModule-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/AngularJS\/Search\/min\/searchController-min.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -195,6 +228,26 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/AngularJS\/Search\/searchRepository.js",
 		"outputAbbreviatedPath": "\/AngularJS\/Search\/min\/searchRepository-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/AngularJS\/Templates\/Nodo.html": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/AngularJS\/Templates\/Nodo.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/confront.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/confront.js",
+		"outputAbbreviatedPath": "\/min\/confront-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
