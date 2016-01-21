@@ -18,10 +18,26 @@
 
     $scope.Search = function() {                
 
-        //LQMA 21012016 se agrego funcionalidad de busqueda de folios    
-        searchRepository.getFolios($scope.folioBusca)
+        //LQMA 21012016 se agrego funcionalidad de busqueda de folios    $rootScope.division == null && 
+        if($rootScope.empresa == null && $rootScope.agencia == null && $rootScope.departamento == null 
+            && $scope.folioBusca == null){
+            alertFactory.warning('Debe proporcionar al menos alguno de los filtros de busqueda.');
+        }
+        else{       
+        
+        /*alert($rootScope.division.idDivision);
+        alert($rootScope.empresa.idEmpresa);
+        alert($rootScope.agencia.idSucursal);
+        alert($rootScope.departamento.idDepartamento);*/
+        var emp = ($rootScope.empresa == null ? 0 : $rootScope.empresa.idEmpresa);
+        var suc = ($rootScope.agencia == null ? 0 : $rootScope.agencia.idSucursal);
+        var dep = ($rootScope.departamento == null ? 0: $rootScope.departamento.idDepartamento);
+        var folio = ($scope.folioBusca == null ? '': $scope.folioBusca);
+
+        searchRepository.getFolios(folio,emp,suc,dep)
             .success(getFoliosSuccessCallback)
-            .error(errorCallBack);               
+            .error(errorCallBack);
+        }
     };
 
     //Script para salir
@@ -249,7 +265,7 @@
         $('#searchResultsO').modal('show');
     };
 
-    $scope.CargaOrden = function(fol){
+    $scope.CargaOrden = function(fol){  
         //alert(fol.Folio_Operacion);
         $('#closeMenu').click();
         $('#searchResultsO').modal('hide');        

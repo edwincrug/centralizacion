@@ -1,4 +1,4 @@
 var global_settings = {
-	urlCORS: 'http://192.168.20.9/ApiCentral',
+	urlCORS: 'http://localhost:60582',
 	uploadPath: 'C:/Desarrollo/Central/centralizacion/app/uploads'
 }  
