@@ -55,3 +55,14 @@
 .seleccionable {
   cursor: pointer;
 }
+<<<<<<< HEAD
+=======
+
+#slide {
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  margin-right: 10px;
+}
+>>>>>>> origin/master
