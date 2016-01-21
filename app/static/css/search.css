@@ -44,3 +44,13 @@
 
 .seleccionable {
   cursor: pointer; }
+
+#slide {
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  margin-right: 10px; }
+
+#mnuUser {
+  background-color: #38424e; }
