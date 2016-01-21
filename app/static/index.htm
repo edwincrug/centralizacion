@@ -154,10 +154,10 @@
         </li>
         <li>
           <div class="labely" href="#">Folio</div>
-          <input type="text" class="form-control" >
+          <input type="text" class="form-control" ng-model="folioBusca">
         </li>
         <button type="button" class="btn btn-primary btnSearch" ng-click="Search()"><span class="glyphicon glyphicon-play " aria-hidden="true"></span> Buscar</button>
-        <button type="button" class="btn btn-default btnSearch" id="closeMenu" ng-click="CloseGrid()"><span class="glyphicon glyphicon-remove " aria-hidden="true"></span> Cancelar</button>
+        <button type="button" class="btn btn-default btnSearch" id="closeMenu" ><span class="glyphicon glyphicon-remove " aria-hidden="true"></span> Cancelar</button>
       </ul>
     </nav>
     <div id="st-trigger-effects" class="column">
@@ -171,9 +171,9 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" id="slide" data-effect="st-effect-3" ng-click="HideView()">
+            <button class="navbar-brand" href="#" id="slide" data-effect="st-effect-3">
               <span class="glyphicon glyphicon-th blanco" id="menu" aria-hidden="true"></span>
-            </a>
+            </button> 
             <a class="navbar-brand" href="#"><span class="blanco">Digitalización</span></a>
           </div>
 
@@ -266,21 +266,20 @@ function getName(){
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-<div class="modal fade" id="searchResults" ng-controller="searchController">
-  <div class="modal-dialog">
+<div class="modal fade" id="searchResultsO" ng-controller="searchController">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Resultados de la búsqueda</h4>
+        <h4 class="modal-title">Resultados de la búsqueda </h4>
       </div>
       <div class="modal-body">
-        <div id="finder">
-         <div class="input-group" id="searchResults">
-          <span class="input-group-addon" id="basic-addon1">@</span>
-          <input type="text" class="form-control" placeholder="Introduzca una palabra clave para filtrar">
-        </div>
-        <div class="tableContent">
+        <!--div id="finder"-->
+         <div class="input-group searchinResults"> <!-- id="searchResultsXX"-->
+            <span class="input-group-addon" id="basic-addon1">@</span>
+            <input type="text" class="form-control" placeholder="Introduzca una palabra clave para filtrar" ng-model="searchText">
+         </div>     <!-- /input-group -->   
+        <div class="tableContent row">
           <table class="table table-striped table-condensed table-hover">
             <thead>
               <tr>
@@ -289,33 +288,37 @@ function getName(){
                 <th>Fecha</th>
                 <th>Estatus</th>
                 <th>Proveedor</th>
-                <th>Descripción</th>
+
+                <th>Sucursal</th>
+                <th>Departamento</th>
                 <th>Importe</th>
-                <th>Acción</th>
+                <th>Accion</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td> DIV2-SDM-SDM-SIST-PE1</td>
-                <td> 1 </td>
-                <td> 28/09/15 </td>
-                <td> 1</td>
-                <td> ESPERANZA ARGUETA HERNANDEZ </td>
-                <td> 14575 </td>
-                <td> $1500.00 </td>
-                <td> <button type="button" class="btn btn-default glyphicon glyphicon-hand-left" data-toggle="tooltip" data-placement="top" title="Cancelar" ng-click="EstableceSucursal('Corporativo');"></button> </td>
+              <tr ng-repeat="folio in ordenesCompra | filter:searchText">
+                <td> {{folio.Folio_Operacion}}</td>
+                <td> {{folio.tipoorden}} </td>
+                <td> {{folio.oce_fechaorden}} </td>
+                <td> {{folio.situacionOrden}}</td>
+                <td> {{folio.Proveedor}} </td>
+
+                <td> {{folio.sucursal}} </td>
+                <td> {{folio.depto}} </td>
+                <td> {{folio.oce_importetotal}}</td>
+                <td> <button type="button" class="btn btn-default glyphicon glyphicon-hand-left" data-toggle="tooltip" data-placement="top" title=" Cancelar" ng-click="CargaOrden(folio);"></button> 
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
+      </div>    
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-    </div>
-  </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal fade-->
 
 <!-- Ventana modal de carga -->
 <!-- Modal -->

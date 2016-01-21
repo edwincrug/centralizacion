@@ -16,12 +16,12 @@
         $scope.loadTipos();
     };
 
-    $scope.Search = function() {
-        $('#searchResults').modal('show');
+    $scope.Search = function() {                
 
-    	// $("#finder").animate({
-     //        width: "show"
-     //    });
+        //LQMA 21012016 se agrego funcionalidad de busqueda de folios    
+        searchRepository.getFolios($scope.folioBusca)
+            .success(getFoliosSuccessCallback)
+            .error(errorCallBack);               
     };
 
     //Script para salir
@@ -173,7 +173,7 @@
         $('#searchProveedor').modal('show');
     };
 
-    $scope.BuscarProveedor = function(){
+    $scope.BuscarProveedor = function(){        
          searchRepository.getProveedor($scope.textProveedor)
             .success(getProveedorSuccessCallback)
             .error(errorCallBack);
@@ -237,5 +237,26 @@
     $scope.initDate = new Date();
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $rootScope.format = $scope.formats[0];
+
+    //LQMA 20012016 add implementacion busqueda folios
+    //BEGIN
+    //$scope.getFolios = function() {        
+    //}
+    //LQMA 21012016 add funcionalidad para busqueda de folios
+    var getFoliosSuccessCallback = function (data, status, headers, config) {
+        //alertFactory.success('HA HA HA');
+        $rootScope.ordenesCompra = data;
+        $('#searchResultsO').modal('show');
+    };
+
+    $scope.CargaOrden = function(fol){
+        //alert(fol.Folio_Operacion);
+        $('#closeMenu').click();
+        $('#searchResultsO').modal('hide');        
+        $rootScope.CargaEmpleado(fol.Folio_Operacion);
+
+    };
+
+    //END
 
 });

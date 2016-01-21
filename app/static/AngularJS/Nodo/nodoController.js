@@ -22,16 +22,31 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             .error(errorCallBack);
     };
 
+    $rootScope.CargaEmpleado = function(id){
+        $scope.id = id;
+        empleadoRepository.get(getParameterByName('employee'))
+            .success(getEmpleadoSuccessCallback)
+            .error(errorCallBack);
+
+    };
+
     var getEmpleadoSuccessCallback = function (data, status, headers, config) {
         $rootScope.empleado = data;
         //Obtenemos la lista de nodos completos
         if($rootScope.empleado != null){
-            if(getParameterByName('id')){
+                $scope.folio = getParameterByName('id') != '' ? getParameterByName('id') : $scope.id;
                 //Obtengo el encabezado del expediente
-                nodoRepository.getHeader(getParameterByName('id'),$rootScope.empleado.idUsuario)
-                    .success(obtieneHeaderSuccessCallback)
-                    .error(errorCallBack);
-            }
+                if($scope.folio){
+                    nodoRepository.getHeader($scope.folio,$rootScope.empleado.idUsuario)
+                        .success(obtieneHeaderSuccessCallback)
+                        .error(errorCallBack);
+                }
+                else
+                {
+                    //alert('123');
+                    $('#slide').click();
+                    //angular.element('#slide').triggerHandler('click');
+                }
         }
         else
             alertFactory.error('El empleado no existe en el sistema.');
@@ -44,7 +59,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         $scope.expediente = data;
         if($scope.expediente != null){
             //Obtengo la información de los nodos
-            nodoRepository.getAll(getParameterByName('id'),$scope.idProceso,$rootScope.empleado.idPerfil)
+            nodoRepository.getAll($scope.folio,$scope.idProceso,$rootScope.empleado.idPerfil)
                 .success(obtieneNodosSuccessCallback)
                 .error(errorCallBack);
         }
