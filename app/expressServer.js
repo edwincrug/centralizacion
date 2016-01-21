@@ -63,29 +63,15 @@ var ExpressServer = function(config){
         res.end();
     });
 
-    //Recibo las variables de login
-    this.expressServer.post('/', function(req, res){
-        console.log(req.body);
-    });
-    
     // //Configuracion de MULTER
 
     this.expressServer.get('/uploader',function(req,res){
          res.sendfile('app/static/uploader.htm');
     });
 
-  this.expressServer.get('/success',function(req,res){
+    this.expressServer.get('/success',function(req,res){
          res.sendfile('app/static/success.htm');
     });
-
-    // this.expressServer.post('/api/photo',function(req,res){
-    //     upload(req,res,function(err) {
-    //         if(err) {
-    //             return res.end("Error uploading file.");
-    //         }
-    //         res.end("File is uploaded");
-    //     });
-    // });
 
     this.expressServer.post('/profile', upload.single('avatar'), function (req, res, next) {
       // req.file is the `avatar` file 
@@ -97,6 +83,11 @@ var ExpressServer = function(config){
 
     //Servimos el archivo angular
     this.expressServer.get('*', function(req, res){
+        res.sendfile('app/static/index.htm');
+    });
+
+    //Recibo las variables de login
+    this.expressServer.post('*', function(req, res){
         res.sendfile('app/static/index.htm');
     });
 };
