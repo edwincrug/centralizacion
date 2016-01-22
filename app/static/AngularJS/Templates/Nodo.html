@@ -1,7 +1,7 @@
 <div cg-busy="myPromise" ng-init="init()" resize>
   <div id="contenedor">
     <section id="header">
-      <div class="col-xs-9" id="folio">
+      <div class="col-xs-9" id="folio" tooltip="{{ 'Orden Plan Piso: ' + expediente.alias }}">
         {{ 'Orden de Compra: ' + expediente.folio }}
       </div>
       <div class="col-xs-3 estatus" id="estatus">
