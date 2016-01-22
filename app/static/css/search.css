@@ -53,4 +53,9 @@
   margin-right: 10px; }
 
 #mnuUser {
-  background-color: #38424e; }
+  background-color: #38424e;
+  text-align: right; }
+
+#nombreEmpleado {
+  margin-right: 35px;
+  margin-left: 5px; }

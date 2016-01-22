@@ -1,8 +1,8 @@
 <div cg-busy="myPromise" ng-init="init()" resize>
   <div id="contenedor">
     <section id="header">
-      <div class="col-xs-9" id="folio" tooltip="{{ 'Orden Plan Piso: ' + expediente.alias }}">
-        {{ 'Orden de Compra: ' + expediente.folio }}
+      <div class="col-xs-9" id="folio" >
+        {{ 'Orden de Compra: ' + expediente.folio + '  '}} <span class="glyphicon glyphicon-log-out" aria-hidden="true" ng-hide="expediente.alias == null" tooltip="{{ 'Orden plan piso: ' + expediente.alias }}"></span>
       </div>
       <div class="col-xs-3 estatus" id="estatus">
         {{ expediente.estatusExpediente }}
