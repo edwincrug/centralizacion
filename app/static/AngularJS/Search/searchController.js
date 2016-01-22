@@ -6,7 +6,9 @@
     //Desconfiguramos el clic izquierdo en el frame contenedor de documento
     var errorCallBack = function (data, status, headers, config) {
         $('#btnEnviar').button('reset');
+        $('#btnBuscar').button('reset');
         alertFactory.error('Ocurrio un problema');
+
     };
 
     //Grupo de funciones de inicio
@@ -40,6 +42,7 @@
         //alert(prov);
         //alert(tipoOrd);
 
+        $('#btnBuscar').button('loading');
         searchRepository.getFolios(folio,emp,suc,dep,tipoOrd,prov)
             .success(getFoliosSuccessCallback)
             .error(errorCallBack);
@@ -268,6 +271,7 @@
     var getFoliosSuccessCallback = function (data, status, headers, config) {
         //alertFactory.success('HA HA HA');
         $rootScope.ordenesCompra = data;
+        $('#btnBuscar').button('reset');
         $('#searchResultsO').modal('show');
     };
 
