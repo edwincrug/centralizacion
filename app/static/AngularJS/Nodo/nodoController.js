@@ -16,17 +16,33 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Grupo de funciones de inicio
     $scope.init = function () {
+
+        getEmpleado();
         //Obtengo los datos del empleado loguado
-        empleadoRepository.get(getParameterByName('employee'))
+        empleadoRepository.get($rootScope.currentEmployee)
             .success(getEmpleadoSuccessCallback)
             .error(errorCallBack);
     };
 
     $rootScope.CargaEmpleado = function(id){
+        getEmpleado();
         $scope.id = id;
-        empleadoRepository.get(getParameterByName('employee'))
+        empleadoRepository.get($rootScope.currentEmployee)
             .success(getEmpleadoSuccessCallback)
             .error(errorCallBack);
+
+    };
+
+    //Obtiene el empleado actual
+    var getEmpleado = function(){
+        if(getParameterByName('employee') != ''){
+            $rootScope.currentEmployee = getParameterByName('employee');
+        }
+
+        if ($rootScope.currentEmployee == null){
+            var idEmpleado = prompt("Ingrese un número de empleado", 1);
+            $rootScope.currentEmployee = idEmpleado;
+        }
 
     };
 

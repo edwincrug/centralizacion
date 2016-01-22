@@ -292,21 +292,21 @@ function getName(){
                 <th>Sucursal</th>
                 <th>Departamento</th>
                 <th>Importe</th>
-                <th>Accion</th>
+                <th>Ver</th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="folio in ordenesCompra | filter:searchText">
                 <td> {{folio.Folio_Operacion}}</td>
                 <td> {{folio.tipoorden}} </td>
-                <td> {{folio.oce_fechaorden}} </td>
+                <td> {{folio.oce_fechaorden | date:'dd/MM/yyyy' }} </td>
                 <td> {{folio.situacionOrden}}</td>
                 <td> {{folio.Proveedor}} </td>
 
                 <td> {{folio.sucursal}} </td>
                 <td> {{folio.depto}} </td>
-                <td> {{folio.oce_importetotal}}</td>
-                <td> <button type="button" class="btn btn-default glyphicon glyphicon-hand-left" data-toggle="tooltip" data-placement="top" title=" Cancelar" ng-click="CargaOrden(folio);"></button> 
+                <td> {{folio.oce_importetotal | currency }}</td>
+                <td> <button type="button" class="btn btn-info glyphicon glyphicon-hand-left" data-toggle="tooltip" data-placement="top" title=" Cancelar" ng-click="CargaOrden(folio);"></button> 
                 </td>
               </tr>
             </tbody>
