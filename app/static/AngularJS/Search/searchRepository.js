@@ -23,8 +23,8 @@ registrationModule.factory('searchRepository', function ($http) {
         getProveedor: function (cadena) {
             return $http.get(searchUrl + '5|' + cadena);
         },
-        getFolios: function (folio,idEmpresa,idSucursal,idDepartamento) { 
-            return $http.get(searchUrl + '7|' + folio + '|' + idEmpresa + '|' + idSucursal + '|' + idDepartamento);
+        getFolios: function (folio,idEmpresa,idSucursal,idDepartamento,tipoOrden,idProveedor) { 
+            return $http.get(searchUrl + '7|' + folio + '|' + idEmpresa + '|' + idSucursal + '|' + idDepartamento + '|' + idProveedor + '|' +tipoOrden);
         },
         update: function (id) {
             return $http.post(searchUrl + '2|' + id);

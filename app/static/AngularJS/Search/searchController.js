@@ -20,7 +20,7 @@
 
         //LQMA 21012016 se agrego funcionalidad de busqueda de folios    $rootScope.division == null && 
         if($rootScope.empresa == null && $rootScope.agencia == null && $rootScope.departamento == null 
-            && $scope.folioBusca == null){
+            && $scope.folioBusca == null && $rootScope.proveedor == null && $rootScope.tipo == null){
             alertFactory.warning('Debe proporcionar al menos alguno de los filtros de busqueda.');
         }
         else{       
@@ -28,13 +28,19 @@
         /*alert($rootScope.division.idDivision);
         alert($rootScope.empresa.idEmpresa);
         alert($rootScope.agencia.idSucursal);
-        alert($rootScope.departamento.idDepartamento);*/
+        alert($rootScope.departamento.idDepartamento);*/        
+
         var emp = ($rootScope.empresa == null ? 0 : $rootScope.empresa.idEmpresa);
         var suc = ($rootScope.agencia == null ? 0 : $rootScope.agencia.idSucursal);
         var dep = ($rootScope.departamento == null ? 0: $rootScope.departamento.idDepartamento);
         var folio = ($scope.folioBusca == null ? '': $scope.folioBusca);
+        var prov = ($rootScope.proveedor == null ? 0: $rootScope.proveedor.idProveedor);
+        var tipoOrd = ($rootScope.tipo == null ? -1: $rootScope.tipo.idtipoorden);
 
-        searchRepository.getFolios(folio,emp,suc,dep)
+        //alert(prov);
+        //alert(tipoOrd);
+
+        searchRepository.getFolios(folio,emp,suc,dep,tipoOrd,prov)
             .success(getFoliosSuccessCallback)
             .error(errorCallBack);
         }
@@ -269,6 +275,14 @@
         //alert(fol.Folio_Operacion);
         $('#closeMenu').click();
         $('#searchResultsO').modal('hide');        
+        $rootScope.empresa = null;// ? 0 : $rootScope.empresa.idEmpresa);
+        $rootScope.agencia = null;// ? 0 : $rootScope.agencia.idSucursal);
+        $rootScope.departamento = null;// ? 0: $rootScope.departamento.idDepartamento);
+        $scope.folioBusca = null;// ? '': $scope.folioBusca);
+        $rootScope.proveedor = null; //? 0: $rootScope.proveedor.idProveedor);
+        $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);
+
+
         $rootScope.CargaEmpleado(fol.Folio_Operacion);
 
     };
