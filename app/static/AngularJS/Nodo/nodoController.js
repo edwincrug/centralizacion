@@ -133,6 +133,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Reacciona a los triggers de NEXT PREV CLIC
     var goToPageTrigger = function(button){
+        alert('XX2');
         //Veo la página actual
         $scope.currentPage = $('ul#standard').roundabout("getChildInFocus") + 1;
         if($scope.listaNodos[$scope.currentPage - 1].enabled != 0){
@@ -158,12 +159,20 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Ir a una página específica
     var goToPage = function(page) {
-        $('ul#standard').roundabout("animateToChild", (page - 1));
+        //LQMA 25012016
+        alert('XX1');
+
+        nodoRepository.getNavegacion('',0,0,0)
+            .success(getNavegacionSuccessCallback)
+            .error(errorCallBack);
+
+
+        /*$('ul#standard').roundabout("animateToChild", (page - 1));
         $scope.currentNode = $scope.listaNodos[page - 1];
         //Marco el nodo activo en NavBar
         SetActiveNav();
         //Cargo el contenido de nodo
-        LoadActiveNode();
+        LoadActiveNode();*/
     };
 
     //Establece la clase de navegación del nodo actual
@@ -214,6 +223,14 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     var Apply = function() {
         if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest')
             $scope.$apply();
+    };
+
+
+
+    //Success de obtner navagacion por nodo LQMA
+    var getNavegacionSuccessCallback = function (data, status, headers, config) {
+        $rootScope.linksNavegacion = data;
+        $('#navegaLinks').modal('show');
     };
 
     ///

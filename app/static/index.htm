@@ -368,6 +368,41 @@ function getName(){
 </div>
 
 
+<!--LQMA add 25012016 muestra links de navegacion cuando son mas de una remision -->
+<div class="modal fade" id="navegaLinks" ng-controller="nodoController">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Navegación </h4>
+      </div>
+      <div class="modal-body">
+        <div>   
+        <div class="tableContent row">
+          <table class="table table-striped table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="link in linksNavegacion">
+                <td><a ng-href="#/{{link.nodo}}"/>{{link.nodo}}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>                          
+        </div>
+      </div>    
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal fade-->
+
+
+
 <!--Interface de usuario-->
 <script src="js/toastr.min.js"></script>
 
@@ -412,7 +447,8 @@ function getName(){
 <script src="AngularJS/Nodo/nodoController.js"></script>
 <script src="AngularJS/Search/searchRepository.js"></script>
 <script src="AngularJS/Search/searchController.js"></script>
-
+<!--LQMA add funciones common-->
+<script src="common.js"></script>
 <!--Sidebars-->
 <script src="js/sidebar/classie.js"></script>
 <script src="js/sidebar/sidebarEffects.js"></script>

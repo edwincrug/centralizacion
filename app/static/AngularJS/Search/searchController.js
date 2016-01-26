@@ -20,9 +20,12 @@
 
     $scope.Search = function() {                
 
+        //alert($scope.dt1);
+
         //LQMA 21012016 se agrego funcionalidad de busqueda de folios    $rootScope.division == null && 
         if($rootScope.empresa == null && $rootScope.agencia == null && $rootScope.departamento == null 
-            && $scope.folioBusca == null && $rootScope.proveedor == null && $rootScope.tipo == null){
+            && $scope.folioBusca == null && $rootScope.proveedor == null && $rootScope.tipo == null && $scope.dt1 == null
+            && $scope.dt2 == null){
             alertFactory.warning('Debe proporcionar al menos alguno de los filtros de busqueda.');
         }
         else{       
@@ -38,12 +41,16 @@
         var folio = ($scope.folioBusca == null ? '': $scope.folioBusca);
         var prov = ($rootScope.proveedor == null ? 0: $rootScope.proveedor.idProveedor);
         var tipoOrd = ($rootScope.tipo == null ? -1: $rootScope.tipo.idtipoorden);
+        
+        //var fechaString = $scope.dt1.format("yyyymmdd");
 
-        //alert(prov);
-        //alert(tipoOrd);
+        var fecha1 = ($scope.dt1 == null ? null: $scope.dt1.format("yyyymmdd"));
+        var fecha2 = ($scope.dt2 == null ? null: $scope.dt2.format("yyyymmdd"));
 
+        //alert(fecha2);
+        
         $('#btnBuscar').button('loading');
-        searchRepository.getFolios(folio,emp,suc,dep,tipoOrd,prov)
+        searchRepository.getFolios(folio,emp,suc,dep,tipoOrd,prov,fecha1,fecha2)
             .success(getFoliosSuccessCallback)
             .error(errorCallBack);
         }
@@ -269,10 +276,19 @@
     //}
     //LQMA 21012016 add funcionalidad para busqueda de folios
     var getFoliosSuccessCallback = function (data, status, headers, config) {
-        //alertFactory.success('HA HA HA');
-        $rootScope.ordenesCompra = data;
+        
+        if(data.length == 0)
+        {
+            alertFactory.warning('No se han encontrado registros con los parametros seleccionados.');    
+        }
+        else
+        {
+            $rootScope.ordenesCompra = data;
+            $('#searchResultsO').modal('show');
+        }
+        
         $('#btnBuscar').button('reset');
-        $('#searchResultsO').modal('show');
+        
     };
 
     $scope.CargaOrden = function(fol){  
