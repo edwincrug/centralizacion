@@ -174,7 +174,7 @@
             <button class="navbar-brand" id="slide" data-effect="st-effect-3">
               <span class="glyphicon glyphicon-th blanco" id="menu" aria-hidden="true"></span>
             </button> 
-            <a class="navbar-brand" href="#"><span class="blanco">Digitalización</span></a>
+            <a class="navbar-brand" href="#"><span class="blanco">Digitalización / Administración de Expedientes</span></a>
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
@@ -184,9 +184,9 @@
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown" id="mnuAvatar">
                 <a id="mnuUser" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  <span class="blanco">{{ empleado.nombre }}</span>  
+                  <span class="blanco" >{{ empleado.nombre }}</span>  
                   <img src="image/profile/man.jpg" id="avatar">
-                  <span class="caret blanco"></span>
+                  <span class="caret blanco" id="nombreEmpleado"></span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="seleccionable"><a ng-click="Salir()">Salir</a></li>
