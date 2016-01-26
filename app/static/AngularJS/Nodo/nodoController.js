@@ -133,7 +133,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Reacciona a los triggers de NEXT PREV CLIC
     var goToPageTrigger = function(button){
-        alert('XX2');
+        //LQMA 
+        //alert($scope.currentPage);
         //Veo la página actual
         $scope.currentPage = $('ul#standard').roundabout("getChildInFocus") + 1;
         if($scope.listaNodos[$scope.currentPage - 1].enabled != 0){
@@ -160,19 +161,25 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     //Ir a una página específica
     var goToPage = function(page) {
         //LQMA 25012016
-        alert('XX1');
+        //alert(page);
 
-        nodoRepository.getNavegacion('',0,0,0)
-            .success(getNavegacionSuccessCallback)
-            .error(errorCallBack);
+        if(page == 6)
+        {
+            nodoRepository.getNavegacion('',0,0,0)
+                .success(getNavegacionSuccessCallback)
+                .error(errorCallBack);
+        }
+        else
+        {
 
+            $('ul#standard').roundabout("animateToChild", (page - 1));
+            $scope.currentNode = $scope.listaNodos[page - 1];
+            //Marco el nodo activo en NavBar
+            SetActiveNav();
+            //Cargo el contenido de nodo
+            LoadActiveNode();
 
-        /*$('ul#standard').roundabout("animateToChild", (page - 1));
-        $scope.currentNode = $scope.listaNodos[page - 1];
-        //Marco el nodo activo en NavBar
-        SetActiveNav();
-        //Cargo el contenido de nodo
-        LoadActiveNode();*/
+        }
     };
 
     //Establece la clase de navegación del nodo actual

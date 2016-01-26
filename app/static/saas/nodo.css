@@ -13,11 +13,7 @@
   padding: 4px;
   font-size: 11px;
   border-radius: 5px 0px 0px 5px;
-<<<<<<< HEAD
-  margin-top: 47px;
-=======
   margin-top: 30px;
->>>>>>> origin/master
 }
 
 #header {
@@ -27,7 +23,7 @@
   width: 415px;
   height: 33px;
   margin-top: -20px;
-  margin-left: calc(50% - 200px);
+  margin-left: calc(50% - 207px);
   border: 1px solid #BBB9B9;
   background-color: rgba(204, 204, 204, 0.57);
   border-radius: 0px 0px 5px 5px;
@@ -200,7 +196,7 @@
 }
 
 #mnuAvatar {
-  width: 185px;
+  width: 350px;
 }
 
 #imgNothing {
