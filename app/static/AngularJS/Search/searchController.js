@@ -113,7 +113,6 @@
         $rootScope.division = div; 
         $rootScope.searchlevel = 2;
         $scope.LoadEmpresa();
-
     };
 
     $scope.ClearDivision = function() {
@@ -232,7 +231,7 @@
         $scope.dt2 = new Date();
     };
 
-    $scope.today();
+    //$scope.today();
 
     $scope.clear = function () {
         $scope.dt1 = null;
@@ -247,7 +246,7 @@
     $scope.toggleMin = function () {
         $scope.minDate = $scope.minDate ? null : new Date();
     };
-    $scope.toggleMin();
+    //$scope.toggleMin();
 
     $scope.open1 = function ($event) {
         $event.preventDefault();

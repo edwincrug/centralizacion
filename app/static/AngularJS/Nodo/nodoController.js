@@ -26,11 +26,11 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     $rootScope.CargaEmpleado = function(id){
         getEmpleado();
-        $scope.id = id;
+        //$scope.id = id;
+        localStorageService.add('idFolio',id);
         empleadoRepository.get($rootScope.currentEmployee)
             .success(getEmpleadoSuccessCallback)
             .error(errorCallBack);
-
     };
 
     //Obtiene el empleado actual
@@ -43,23 +43,24 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             var idEmpleado = prompt("Ingrese un número de empleado", 1);
             $rootScope.currentEmployee = idEmpleado;
         }
-
     };
 
     var getEmpleadoSuccessCallback = function (data, status, headers, config) {
         $rootScope.empleado = data;
         //Obtenemos la lista de nodos completos
         if($rootScope.empleado != null){
-                $scope.folio = getParameterByName('id') != '' ? getParameterByName('id') : $scope.id;
+                $scope.folio = getParameterByName('id') != '' ? getParameterByName('id') : localStorageService.get('idFolio');//$scope.id; //localStorageService.getItem('idFolio');
                 //Obtengo el encabezado del expediente
+                //LQMA variable para controlar que entra por busqueda y no por navegacion
+                $scope.navegacion = false; 
+
                 if($scope.folio){
                     nodoRepository.getHeader($scope.folio,$rootScope.empleado.idUsuario)
                         .success(obtieneHeaderSuccessCallback)
                         .error(errorCallBack);
                 }
                 else
-                {
-                    //alert('123');
+                {                    
                     $('#slide').click();
                     //angular.element('#slide').triggerHandler('click');
                 }
@@ -67,14 +68,32 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         else
             alertFactory.error('El empleado no existe en el sistema.');
         
+    };   
+
+    //LQMA funcion para cada folio dentro del pop remisiones-facturas
+    $scope.navegaFolio = function(folio)
+    {
+        $scope.navegacion = true; //LQMA true: entro desde
+
+        //alert(folio.folionuevo);
+        $('#navegaLinks').modal('hide');
+        $scope.folio = folio.folionuevo;
+
+        nodoRepository.getHeader($scope.folio,$rootScope.empleado.idUsuario)
+                        .success(obtieneHeaderSuccessCallback)
+                        .error(errorCallBack);
+
     };
 
     //Success al obtener expediente
     var obtieneHeaderSuccessCallback = function (data, status, headers, config) {
+        //LQMA variable controla inicio nodos
+        $scope.iniciaNodos = 0;
+
         //Asigno el objeto encabezado
-        $scope.expediente = data;
+        $scope.expediente = data;   //LQMA la propiedad $scope.expediente.nodoActual se actualiza con el data, checar si viene de otro link para poner en el nodo seleccionado
         if($scope.expediente != null){
-            //Obtengo la información de los nodos
+            //Obtengo la información de los nodos            
             nodoRepository.getAll($scope.folio,$scope.idProceso,$rootScope.empleado.idPerfil)
                 .success(obtieneNodosSuccessCallback)
                 .error(errorCallBack);
@@ -113,7 +132,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                 btnPrevCallback: function(){
                     goToPageTrigger('.prev');
                 },
-                clickToFocusCallback: function(){ 
+                clickToFocusCallback: function(){
                     goToPageTrigger('.next');
                 }
             });
@@ -132,10 +151,13 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     ////////////////////////////////////////////////////////////////////////////
 
     //Reacciona a los triggers de NEXT PREV CLIC
-    var goToPageTrigger = function(button){
-        //LQMA 
-        //alert($scope.currentPage);
+    var goToPageTrigger = function(button){        
         //Veo la página actual
+        //yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy LQMA
+        //if($scope.expediente.esPlanta == 1)
+            //navegacionRemFac($scope.currentPage,$('ul#standard').roundabout("getChildInFocus") + 1);
+
+        //YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
         $scope.currentPage = $('ul#standard').roundabout("getChildInFocus") + 1;
         if($scope.listaNodos[$scope.currentPage - 1].enabled != 0){
             goToPage($scope.currentPage);
@@ -149,37 +171,87 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     //LLeva a un nodo específico desde la navegación
     $scope.setPage = function(nodo) {
         if(nodo.enabled != 0){
+            //yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy  LQMA
+            //if($scope.expediente.esPlanta == 1)
+                //navegacionRemFac($scope.currentPage,nodo.id);
+            //YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
             $scope.currentPage = nodo.id;
             goToPage($scope.currentPage);  
         }
         else{
             alertFactory.warning('Nodo ' + $scope.currentPage + ' no disponible para su perfil.');
-        }
-    
+        }    
     };
 
-    //Ir a una página específica
-    var goToPage = function(page) {
-        //LQMA 25012016
-        //alert(page);
+    //LQMA 
+    var navegacionRemFac = function(origen, destino) {
 
-        if(page == 6)
+        var inicio = global_settings.nodoSaltoRefacciones[0];
+        var fin = global_settings.nodoSaltoRefacciones[1];
+
+        var tipoFolio = 0,tipoReturn = 0;
+
+        //var origen = $scope.currentPage;//$scope.currentPage_aux;
+        //var destino = nodo.id;//$scope.currentPage;
+
+        if(origen < inicio && destino > fin) //mostrar remisiones (ordenes compra - remisiones)
         {
-            nodoRepository.getNavegacion('',0,0,0)
+            alert('(ordenes compra - remisiones)');
+            tipoFolio = 1; //OC
+            tipoReturn = 2; //RE
+        }
+        if(origen > fin && destino < inicio) //mostrar remisiones (facturas - remisiones)
+        {
+            alert('(facturas - remisiones)');
+            tipoFolio = 3; //FA
+            tipoReturn = 2; //RE
+        }
+        if((origen < inicio) && (destino >= inicio) && (destino <= fin))
+        {               
+            alert('Remisiones Hi Hi Hi');
+            tipoFolio = 1; //OC
+            tipoReturn = 2; //RE
+        }       
+        if((origen >= inicio && origen <= fin) && (destino > fin))
+        {
+            alert('Facturas hAHeHE');
+            tipoFolio = 2; //RE
+            tipoReturn = 3; //FA
+        }        
+        if((origen >fin) && (destino >= inicio && destino <= fin)) 
+        {
+            alert('Remisiones HoHoHooo');
+            tipoFolio = 3; //FA
+            tipoReturn = 2; //RE
+        }
+        if(((origen  >= inicio) && (origen <= fin)) && destino < inicio)
+        {
+            alert('Ordenes Pow!');
+            tipoFolio = 2; //RE
+            tipoReturn = 1; //OC
+        }
+
+        //llamar a sp y mostrar div
+        if(tipoFolio != 0 && tipoReturn != 0)
+        {
+            nodoRepository.getNavegacion($scope.folio,tipoFolio,tipoReturn)
                 .success(getNavegacionSuccessCallback)
                 .error(errorCallBack);
         }
-        else
-        {
+    };
 
+    //Ir a una página específica
+    var goToPage = function(page) {      
+            
             $('ul#standard').roundabout("animateToChild", (page - 1));
             $scope.currentNode = $scope.listaNodos[page - 1];
             //Marco el nodo activo en NavBar
             SetActiveNav();
             //Cargo el contenido de nodo
             LoadActiveNode();
-
-        }
+            
+            //LQMA nodos iniciados
+            $scope.iniciaNodos = 1;
     };
 
     //Establece la clase de navegación del nodo actual
@@ -232,9 +304,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             $scope.$apply();
     };
 
-
-
-    //Success de obtner navagacion por nodo LQMA
+    //Success de obtner navegacion por nodo LQMA
     var getNavegacionSuccessCallback = function (data, status, headers, config) {
         $rootScope.linksNavegacion = data;
         $('#navegaLinks').modal('show');

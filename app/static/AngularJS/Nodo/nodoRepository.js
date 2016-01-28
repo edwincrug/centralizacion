@@ -14,8 +14,8 @@ registrationModule.factory('nodoRepository', function ($http) {
         update: function (id) {
             return $http.post(nodoUrl + '2|' + id);
         },
-        getNavegacion: function (folio, idnodo,idperfil,idtipo) {
-            return $http.get(nodoUrl + '3|' + folio + '|' + idnodo + '|' + idperfil + '|' + idtipo);
+        getNavegacion: function (folio, tipofolio, tiporegreso) {
+            return $http.get(nodoUrl + '3|' + folio + '|' + tipofolio + '|' + tiporegreso);
         }
     };
 });
