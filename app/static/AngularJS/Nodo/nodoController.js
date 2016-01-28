@@ -26,8 +26,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     $rootScope.CargaEmpleado = function(id){
         getEmpleado();
-        //$scope.id = id;
-        localStorageService.add('idFolio',id);
+        $scope.id = id;
+        //localStorageService.add('idFolio',id); //LQMA
         empleadoRepository.get($rootScope.currentEmployee)
             .success(getEmpleadoSuccessCallback)
             .error(errorCallBack);
@@ -49,7 +49,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         $rootScope.empleado = data;
         //Obtenemos la lista de nodos completos
         if($rootScope.empleado != null){
-                $scope.folio = getParameterByName('id') != '' ? getParameterByName('id') : localStorageService.get('idFolio');//$scope.id; //localStorageService.getItem('idFolio');
+                $scope.folio = getParameterByName('id') != '' ? getParameterByName('id') : $scope.id; //localStorageService.get('idFolio');
                 //Obtengo el encabezado del expediente
                 //LQMA variable para controlar que entra por busqueda y no por navegacion
                 $scope.navegacion = false; 
