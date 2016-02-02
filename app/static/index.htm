@@ -296,7 +296,7 @@ function getName(){
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="folio in ordenesCompra | filter:searchText">
+              <tr ng-repeat="folio in ordenesCompra | filter:searchText" ng-dblclick="CargaOrden(folio);">
                 <td> {{folio.Folio_Operacion}}</td>
                 <td> {{folio.tipoorden}} </td>
                 <td> {{folio.oce_fechaorden | date:'dd/MM/yyyy' }} </td>
@@ -387,7 +387,7 @@ function getName(){
             </thead>
             <tbody>
               <tr ng-repeat="link in linksNavegacion">
-                <td><a ng-click="navegaFolio(link)" />{{link.folionuevo}}</a></td>
+                <td><a ng-click="navegaFolio(link.folionuevo)" />{{link.folionuevo}}</a></td>
               </tr>
             </tbody>
           </table>

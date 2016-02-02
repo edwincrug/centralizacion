@@ -3,7 +3,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     //Propiedades
     $scope.isLoading = false;
     $scope.idProceso = 1;
-    $scope.perfil = 1;
+    $scope.perfil = 1;    
+    $rootScope.folioBusca = null;
 
     //Deshabilitamos el clic derecho en toda la aplicación
     //window.frames.document.oncontextmenu = function(){ alertFactory.error('Función deshabilitada en digitalización.'); return false; };
@@ -15,7 +16,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     };
 
     //Grupo de funciones de inicio
-    $scope.init = function () {
+    $scope.init = function () {        
 
         getEmpleado();
         //Obtengo los datos del empleado loguado
@@ -50,9 +51,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         //Obtenemos la lista de nodos completos
         if($rootScope.empleado != null){
                 $scope.folio = getParameterByName('id') != '' ? getParameterByName('id') : $scope.id; //localStorageService.get('idFolio');
-                //Obtengo el encabezado del expediente
-                //LQMA variable para controlar que entra por busqueda y no por navegacion
-                $scope.navegacion = false; 
+                //Obtengo el encabezado del expediente                
 
                 if($scope.folio){
                     nodoRepository.getHeader($scope.folio,$rootScope.empleado.idUsuario)
@@ -73,25 +72,28 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     //LQMA funcion para cada folio dentro del pop remisiones-facturas
     $scope.navegaFolio = function(folio)
     {
-        $scope.navegacion = true; //LQMA true: entro desde
-
+        //$scope.navegacion = true; //LQMA true: entro desde navDiv
         //alert(folio.folionuevo);
         $('#navegaLinks').modal('hide');
-        $scope.folio = folio.folionuevo;
+        //$scope.folio = folio.folionuevo;
 
-        nodoRepository.getHeader($scope.folio,$rootScope.empleado.idUsuario)
-                        .success(obtieneHeaderSuccessCallback)
-                        .error(errorCallBack);
-
+        //$scope.id = folio.folionuevo;
+        $rootScope.CargaEmpleado(folio);
     };
 
     //Success al obtener expediente
     var obtieneHeaderSuccessCallback = function (data, status, headers, config) {
         //LQMA variable controla inicio nodos
         $scope.iniciaNodos = 0;
-
         //Asigno el objeto encabezado
-        $scope.expediente = data;   //LQMA la propiedad $scope.expediente.nodoActual se actualiza con el data, checar si viene de otro link para poner en el nodo seleccionado
+        $scope.expediente = data;   
+        //LQMA la propiedad $scope.expediente.nodoActual se actualiza con el data, checar si viene de otro link para poner en el nodo seleccionado
+        if($scope.navBusFolio == 1)//si viene de busqueda
+            $scope.expediente.nodoActual = $scope.nodNavBusqueda;
+        
+        $scope.navBusFolio =0;
+        //LQMA
+
         if($scope.expediente != null){
             //Obtengo la información de los nodos            
             nodoRepository.getAll($scope.folio,$scope.idProceso,$rootScope.empleado.idPerfil)
@@ -126,13 +128,18 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             $('ul#standard').roundabout({
                 btnNext: ".next",
                 btnNextCallback: function(){
+                    if(1 == 1)
+                    alert('.next trigger');
+                    else
                     goToPageTrigger('.next');
                 },
                 btnPrev: ".prev",
                 btnPrevCallback: function(){
+                    alert('.prev trigger');
                     goToPageTrigger('.prev');
                 },
                 clickToFocusCallback: function(){
+                    alert('.next trigger');
                     goToPageTrigger('.next');
                 }
             });
@@ -143,7 +150,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     };
 
     var GetCurrentPage = function(){
-        $scope.currentPage = $scope.expediente.nodoActual;
+        $scope.currentPage = $scope.navDestino > 0 ? $scope.navDestino : $scope.expediente.nodoActual; //$scope.expediente.nodoActual; //LQMA comentado, se agrego control de navegacion        
+        $scope.navDestino = 0;        
     };
 
     ////////////////////////////////////////////////////////////////////////////
@@ -152,31 +160,41 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Reacciona a los triggers de NEXT PREV CLIC
     var goToPageTrigger = function(button){        
+        //alert('goToPageTrigger');
         //Veo la página actual
         //yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy LQMA
-        //if($scope.expediente.esPlanta == 1)
-            //navegacionRemFac($scope.currentPage,$('ul#standard').roundabout("getChildInFocus") + 1);
-
-        //YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
-        $scope.currentPage = $('ul#standard').roundabout("getChildInFocus") + 1;
-        if($scope.listaNodos[$scope.currentPage - 1].enabled != 0){
-            goToPage($scope.currentPage);
+        if($scope.expediente.esPlanta == 1)
+        {
+            navegacionRemFac($scope.currentPage,$('ul#standard').roundabout("getChildInFocus") + 1);
         }
-        else{
-            alertFactory.warning('El nodo ' + $scope.currentPage + ' no está disponible para su perfil.');
-            $(button).click();
+        else
+        {
+        //YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+            $scope.currentPage = $('ul#standard').roundabout("getChildInFocus") + 1;
+            if($scope.listaNodos[$scope.currentPage - 1].enabled != 0){
+                goToPage($scope.currentPage);
+            }
+            else{
+                alertFactory.warning('El nodo ' + $scope.currentPage + ' no está disponible para su perfil.');
+                $(button).click();
+            }
         }
     };
 
     //LLeva a un nodo específico desde la navegación
     $scope.setPage = function(nodo) {
+        //alert('setPage');
         if(nodo.enabled != 0){
             //yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy  LQMA
-            //if($scope.expediente.esPlanta == 1)
-                //navegacionRemFac($scope.currentPage,nodo.id);
-            //YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
-            $scope.currentPage = nodo.id;
-            goToPage($scope.currentPage);  
+            if($scope.expediente.esPlanta == 1)
+            {
+                navegacionRemFac($scope.currentPage,nodo.id);
+            }
+            else
+            {
+                $scope.currentPage = nodo.id;
+                goToPage($scope.currentPage);  
+            }
         }
         else{
             alertFactory.warning('Nodo ' + $scope.currentPage + ' no disponible para su perfil.');
@@ -190,58 +208,100 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         var fin = global_settings.nodoSaltoRefacciones[1];
 
         var tipoFolio = 0,tipoReturn = 0;
+        $scope.especial = false;
 
         //var origen = $scope.currentPage;//$scope.currentPage_aux;
         //var destino = nodo.id;//$scope.currentPage;
 
         if(origen < inicio && destino > fin) //mostrar remisiones (ordenes compra - remisiones)
         {
-            alert('(ordenes compra - remisiones)');
+            //alert('(ordenes compra - remisiones)');
             tipoFolio = 1; //OC
             tipoReturn = 2; //RE
+            $scope.especial = true;
         }
         if(origen > fin && destino < inicio) //mostrar remisiones (facturas - remisiones)
         {
-            alert('(facturas - remisiones)');
+            //alert('(facturas - remisiones)');
             tipoFolio = 3; //FA
             tipoReturn = 2; //RE
+            $scope.especial = true;
         }
         if((origen < inicio) && (destino >= inicio) && (destino <= fin))
         {               
-            alert('Remisiones Hi Hi Hi');
+            //alert('Remisiones Hi Hi Hi');
             tipoFolio = 1; //OC
             tipoReturn = 2; //RE
         }       
         if((origen >= inicio && origen <= fin) && (destino > fin))
         {
-            alert('Facturas hAHeHE');
+            //alert('Facturas hAHeHE');
             tipoFolio = 2; //RE
             tipoReturn = 3; //FA
         }        
         if((origen >fin) && (destino >= inicio && destino <= fin)) 
         {
-            alert('Remisiones HoHoHooo');
+            //alert('Remisiones HoHoHooo');
             tipoFolio = 3; //FA
             tipoReturn = 2; //RE
         }
         if(((origen  >= inicio) && (origen <= fin)) && destino < inicio)
         {
-            alert('Ordenes Pow!');
+            //alert('Ordenes Pow!');
             tipoFolio = 2; //RE
             tipoReturn = 1; //OC
         }
 
+        $scope.navDestino = $scope.especial ? 0 : destino;
+
         //llamar a sp y mostrar div
         if(tipoFolio != 0 && tipoReturn != 0)
-        {
+        {            
             nodoRepository.getNavegacion($scope.folio,tipoFolio,tipoReturn)
                 .success(getNavegacionSuccessCallback)
                 .error(errorCallBack);
         }
+        else
+        {
+                $scope.currentPage = destino;
+                goToPage($scope.currentPage);
+        }
+    };
+
+    $rootScope.navBusqueda = function(tipo,nodoactual,folio)
+    {
+        var tipoFolio = tipo,tipoReturn = 2;
+        $scope.navegacionBusqueda = 1;
+        $scope.navBusFolio = 1;
+        $scope.folio = folio;
+        $scope.nodNavBusqueda = 0;
+
+        if(tipo == 1 && nodoactual >= global_settings.nodoSaltoRefacciones[0])
+        {
+            //buscar remisiones y mostrar para seleccionar,
+            tipoFolio = 1; //OC
+            tipoReturn = 2; //RE
+            //sino existen, poner en el ultimo nodo de ordenes --> global_settings.nodoSaltoRefacciones[0] - 1
+            $scope.nodNavBusqueda = global_settings.nodoSaltoRefacciones[0] - 1;
+        }
+        if(tipo == 2 && nodoactual > global_settings.nodoSaltoRefacciones[1])
+        {
+            //buscar facturas y mostrar,
+            //sino existen, poner en el ultimo nodo de remisiones -->global_settings.nodoSaltoRefacciones[1]
+            $scope.nodNavBusqueda = global_settings.nodoSaltoRefacciones[1];
+            tipoFolio = 2; //RE
+            tipoReturn = 3; //FA
+        }
+
+        nodoRepository.getNavegacion(folio,tipoFolio,tipoReturn)
+                .success(getNavegacionSuccessCallback)
+                .error(errorCallBack);
+        
     };
 
     //Ir a una página específica
     var goToPage = function(page) {      
+            //alert('gotoPage');
             
             $('ul#standard').roundabout("animateToChild", (page - 1));
             $scope.currentNode = $scope.listaNodos[page - 1];
@@ -251,7 +311,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             LoadActiveNode();
             
             //LQMA nodos iniciados
-            $scope.iniciaNodos = 1;
+            $scope.iniciaNodos = 1;            
     };
 
     //Establece la clase de navegación del nodo actual
@@ -306,8 +366,39 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Success de obtner navegacion por nodo LQMA
     var getNavegacionSuccessCallback = function (data, status, headers, config) {
-        $rootScope.linksNavegacion = data;
-        $('#navegaLinks').modal('show');
+        
+        if($scope.navBusFolio == 1){ //
+            //si no tiene 
+            if(data.length > 0)
+                {
+                    $rootScope.linksNavegacion = data;
+                    $('#navegaLinks').modal('show');
+                    $scope.navBusFolio = 0;
+                }
+            else{
+                    $rootScope.CargaEmpleado($scope.folio);//folio);
+                    //poner nodo actual 
+                    //cuando OC poner en el ultimo nodo de ordenes --> global_settings.nodoSaltoRefacciones[0] - 1
+                    //cuando RE poner en el ultimo nodo de remisiones -->global_settings.nodoSaltoRefacciones[1]
+                }            
+        }
+        else{
+                if(data.length > 0)
+                {
+                    $rootScope.linksNavegacion = data;
+                    $('#navegaLinks').modal('show');
+                }
+                else
+                {
+                    if($scope.navegacionBusqueda == 0)
+                        alertFactory.warning('No existen remisiones/facturas para continuar el flujo.')
+                    else
+                    {                
+                        $rootScope.CargaEmpleado($scope.folio);   //folio);
+                        $scope.navegacionBusqueda = 0;
+                    }
+                }
+        }
     };
 
     ///

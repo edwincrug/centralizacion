@@ -299,10 +299,13 @@
         $rootScope.departamento = null;// ? 0: $rootScope.departamento.idDepartamento);
         $scope.folioBusca = null;// ? '': $scope.folioBusca);
         $rootScope.proveedor = null; //? 0: $rootScope.proveedor.idProveedor);
-        $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);
+        $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);        
+        $rootScope.folioBusca = null;
 
-
-        $rootScope.CargaEmpleado(fol.Folio_Operacion);
+        if(fol.esPlanta == 1)
+            $rootScope.navBusqueda(fol.tipofolio,fol.nodoactual,fol.Folio_Operacion);
+        else
+            $rootScope.CargaEmpleado(fol.Folio_Operacion);
 
     };
 
