@@ -82,7 +82,9 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
             $scope.navBusFolio = 1;            
             
-            setTimeout(nodoRepository.getNavegacion(folio,2,3).success(getNavegacionSuccessCallback).error(errorCallBack),2000);
+            nodoRepository.getNavegacion(folio,2,3)
+                    .success(getNavegacionSuccessCallback)
+                    .error(errorCallBack);
 
             $rootScope.navegacionBusqueda = 0;
             $rootScope.tipoFolio = 0;            
@@ -367,7 +369,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                 .error(errorCallBack);
         }
         else
-            alertFactory.warning('El nodo ' + $scope.currentNode.id + ' aún no se activa para el expediente actual. No existen documentos para mostrar.')
+            alertFactory.warning('El nodo ' + $scope.currentNode.id + ' aún no se activa para el expediente actual. No existen documentos para mostrar.');
     };
 
     //Ejecuta un apply en funciones jQuery
@@ -387,17 +389,17 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                 {
                     if($rootScope.tipoFolio == 1){
                             $rootScope.linksNavegacion = data;
-                            setTimeout($('#navegaLinks').modal('show'),3000);
+                            $('#navegaLinks').modal('show');
                     }
                     else{
                             $rootScope.facturas = data;
-                            setTimeout($('#navegaLinksFacturas').modal('show'),3000);
+                            $('#navegaLinksFacturas').modal('show');
                     }
                     $scope.navBusFolio = 0;
                     
                 }
             else{
-                    setTimeout($rootScope.CargaEmpleado($scope.folio),1000);//folio);
+                    $rootScope.CargaEmpleado($scope.folio);
                     //poner nodo actual 
                     //cuando OC poner en el ultimo nodo de ordenes --> global_settings.nodoSaltoRefacciones[0] - 1
                     //cuando RE poner en el ultimo nodo de remisiones -->global_settings.nodoSaltoRefacciones[1]
@@ -407,12 +409,12 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                 if(data.length > 0)
                 {
                     $rootScope.linksNavegacion = data;
-                    setTimeout($('#navegaLinks').modal('show'),3000);//$('#navegaLinks').modal('show');
+                    $('#navegaLinks').modal('show');//$('#navegaLinks').modal('show');
                 }
                 else
                 {
                     if($rootScope.navegacionBusqueda == 0)
-                        alertFactory.warning('No existen remisiones/facturas para continuar el flujo.')
+                        alertFactory.warning('No existen remisiones/facturas para continuar el flujo.');
                     else
                     {                
                         $rootScope.CargaEmpleado($scope.folio);   //folio);
