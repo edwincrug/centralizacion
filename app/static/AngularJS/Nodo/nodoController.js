@@ -3,8 +3,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     //Propiedades
     $scope.isLoading = false;
     $scope.idProceso = 1;
-    $scope.perfil = 1;    
-    $rootScope.folioBusca = null;
+    $scope.perfil = 1;
 
     //Deshabilitamos el clic derecho en toda la aplicación
     //window.frames.document.oncontextmenu = function(){ alertFactory.error('Función deshabilitada en digitalización.'); return false; };
@@ -75,10 +74,22 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         //$scope.navegacion = true; //LQMA true: entro desde navDiv
         //alert(folio.folionuevo);
         $('#navegaLinks').modal('hide');
+        //$('#searchResultsO').modal('hide');        
         //$scope.folio = folio.folionuevo;
+        $('#navegaLinksFacturas').modal('hide');
 
-        //$scope.id = folio.folionuevo;
-        $rootScope.CargaEmpleado(folio);
+        if($rootScope.navegacionBusqueda == 1 && $rootScope.tipoFolio == 1){
+
+            $scope.navBusFolio = 1;            
+            
+            setTimeout(nodoRepository.getNavegacion(folio,2,3).success(getNavegacionSuccessCallback).error(errorCallBack),2000);
+
+            $rootScope.navegacionBusqueda = 0;
+            $rootScope.tipoFolio = 0;            
+        }
+        else{
+            $rootScope.CargaEmpleado(folio);
+        }
     };
 
     //Success al obtener expediente
@@ -270,11 +281,12 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     $rootScope.navBusqueda = function(tipo,nodoactual,folio)
     {
-        var tipoFolio = tipo,tipoReturn = 2;
-        $scope.navegacionBusqueda = 1;
+        var tipoFolio = tipo, tipoReturn = (tipo == 1)?2:3;
+        $rootScope.navegacionBusqueda = 1;
         $scope.navBusFolio = 1;
         $scope.folio = folio;
         $scope.nodNavBusqueda = 0;
+        $rootScope.tipoFolio = tipo;
 
         if(tipo == 1 && nodoactual >= global_settings.nodoSaltoRefacciones[0])
         {
@@ -367,16 +379,25 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     //Success de obtner navegacion por nodo LQMA
     var getNavegacionSuccessCallback = function (data, status, headers, config) {
         
+        //$('#navegaLinks').modal('hide');
+
         if($scope.navBusFolio == 1){ //
             //si no tiene 
             if(data.length > 0)
                 {
-                    $rootScope.linksNavegacion = data;
-                    $('#navegaLinks').modal('show');
+                    if($rootScope.tipoFolio == 1){
+                            $rootScope.linksNavegacion = data;
+                            setTimeout($('#navegaLinks').modal('show'),3000);
+                    }
+                    else{
+                            $rootScope.facturas = data;
+                            setTimeout($('#navegaLinksFacturas').modal('show'),3000);
+                    }
                     $scope.navBusFolio = 0;
+                    
                 }
             else{
-                    $rootScope.CargaEmpleado($scope.folio);//folio);
+                    setTimeout($rootScope.CargaEmpleado($scope.folio),1000);//folio);
                     //poner nodo actual 
                     //cuando OC poner en el ultimo nodo de ordenes --> global_settings.nodoSaltoRefacciones[0] - 1
                     //cuando RE poner en el ultimo nodo de remisiones -->global_settings.nodoSaltoRefacciones[1]
@@ -386,16 +407,16 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                 if(data.length > 0)
                 {
                     $rootScope.linksNavegacion = data;
-                    $('#navegaLinks').modal('show');
+                    setTimeout($('#navegaLinks').modal('show'),3000);//$('#navegaLinks').modal('show');
                 }
                 else
                 {
-                    if($scope.navegacionBusqueda == 0)
+                    if($rootScope.navegacionBusqueda == 0)
                         alertFactory.warning('No existen remisiones/facturas para continuar el flujo.')
                     else
                     {                
                         $rootScope.CargaEmpleado($scope.folio);   //folio);
-                        $scope.navegacionBusqueda = 0;
+                        $rootScope.navegacionBusqueda = 0;
                     }
                 }
         }

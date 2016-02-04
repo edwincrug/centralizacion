@@ -24,7 +24,7 @@
 
         //LQMA 21012016 se agrego funcionalidad de busqueda de folios    $rootScope.division == null && 
         if($rootScope.empresa == null && $rootScope.agencia == null && $rootScope.departamento == null 
-            && $scope.folioBusca == null && $rootScope.proveedor == null && $rootScope.tipo == null && $scope.dt1 == null
+            && ($scope.folioBusca == null || $scope.folioBusca == '')  && $rootScope.proveedor == null && $rootScope.tipo == null && $scope.dt1 == null
             && $scope.dt2 == null){
             alertFactory.warning('Debe proporcionar al menos alguno de los filtros de busqueda.');
         }
@@ -297,10 +297,9 @@
         $rootScope.empresa = null;// ? 0 : $rootScope.empresa.idEmpresa);
         $rootScope.agencia = null;// ? 0 : $rootScope.agencia.idSucursal);
         $rootScope.departamento = null;// ? 0: $rootScope.departamento.idDepartamento);
-        $scope.folioBusca = null;// ? '': $scope.folioBusca);
+        $scope.folioBusca = '';// ? '': $scope.folioBusca);
         $rootScope.proveedor = null; //? 0: $rootScope.proveedor.idProveedor);
-        $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);        
-        $rootScope.folioBusca = null;
+        $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);
 
         if(fol.esPlanta == 1)
             $rootScope.navBusqueda(fol.tipofolio,fol.nodoactual,fol.Folio_Operacion);
