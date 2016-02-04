@@ -73,10 +73,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     {
         //$scope.navegacion = true; //LQMA true: entro desde navDiv
         //alert(folio.folionuevo);
-        $('#navegaLinks').modal('hide');
-        //$('#searchResultsO').modal('hide');        
-        //$scope.folio = folio.folionuevo;
-        $('#navegaLinksFacturas').modal('hide');
+        $('#navegaLinks').modal('hide');        
 
         if($rootScope.navegacionBusqueda == 1 && $rootScope.tipoFolio == 1){
 
@@ -392,8 +389,10 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                             $('#navegaLinks').modal('show');
                     }
                     else{
-                            $rootScope.facturas = data;
-                            $('#navegaLinksFacturas').modal('show');
+                            $rootScope.linksNavegacion = data;
+                            setTimeout( function(){
+                                $('#navegaLinks').modal('show');
+                            } ,300);
                     }
                     $scope.navBusFolio = 0;
                     
