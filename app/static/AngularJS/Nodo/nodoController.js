@@ -139,19 +139,14 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         setTimeout(function(){ 
             $('ul#standard').roundabout({
                 btnNext: ".next",
-                btnNextCallback: function(){
-                    if(1 == 1)
-                    alert('.next trigger');
-                    else
+                btnNextCallback: function(){                    
                     goToPageTrigger('.next');
                 },
                 btnPrev: ".prev",
-                btnPrevCallback: function(){
-                    alert('.prev trigger');
+                btnPrevCallback: function(){                    
                     goToPageTrigger('.prev');
                 },
-                clickToFocusCallback: function(){
-                    alert('.next trigger');
+                clickToFocusCallback: function(){                    
                     goToPageTrigger('.next');
                 }
             });
