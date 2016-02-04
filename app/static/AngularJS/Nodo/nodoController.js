@@ -11,6 +11,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     //Mensajes en caso de error
     var errorCallBack = function (data, status, headers, config) {
         $('#btnEnviar').button('reset');
+        //Reinicio el tipo de folio
+        $rootScope.tipoFolio = 0;
         alertFactory.error('Ocurrio un problema');
     };
 
@@ -84,7 +86,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                     .error(errorCallBack);
 
             $rootScope.navegacionBusqueda = 0;
-            $rootScope.tipoFolio = 0;            
+                        
         }
         else{
             $rootScope.CargaEmpleado(folio);
@@ -377,8 +379,18 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Success de obtner navegacion por nodo LQMA
     var getNavegacionSuccessCallback = function (data, status, headers, config) {
+        //Asigno titulo de modal
+        // switch($scope.tipoFolio){
+        //     case 1:
+        //         $rootScope.tituloNavegacion = 'OC';
+        //         break;
+        //     case 2: 
+        //         $rootScope.tituloNavegacion = 'Facturas';
+        //         break;
+
+        // } 
         
-        //$('#navegaLinks').modal('hide');
+        alert($rootScope.tipoFolio);
 
         if($scope.navBusFolio == 1){ //
             //si no tiene 
@@ -390,6 +402,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                     }
                     else{
                             $rootScope.linksNavegacion = data;
+                            //El título siempre es "Facturas"
+                            $rootScope.tituloNavegacion = 'Facturas';
                             setTimeout( function(){
                                 $('#navegaLinks').modal('show');
                             } ,300);
@@ -421,6 +435,9 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                     }
                 }
         }
+
+        //Reinicio el tipoFolio
+        $rootScope.tipoFolio = 0;
     };
 
     ///
