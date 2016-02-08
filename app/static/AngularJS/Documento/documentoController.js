@@ -22,7 +22,7 @@
             else
              {   
                 //Muestra Documento
-                var pdf_link = doc.Ruta;
+                var pdf_link = doc.existeDoc//doc.Ruta;
                 var titulo = doc.folio + ' :: ' + doc.descripcion;
                 //var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
                 var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="application/pdf" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
@@ -137,9 +137,10 @@
     $scope.FinishUpload = function(name){
         alertFactory.success('Cool ' + name);
         var doc = $rootScope.currentUpload;
-       // documentoRepository.saveDocument(doc.folio, doc.idDocumento, 1, 1, doc.idNodo, 1, global_settings.uploadPath + name)
-         //   .success(saveDocumentSuccessCallback)
-           // .error(errorCallBack);
+
+        documentoRepository.saveDocument(doc.folio, doc.idDocumento, 1, 1, doc.idNodo, 1, global_settings.uploadPath + '/' + name)
+            .success(saveDocumentSuccessCallback)
+            .error(errorCallBack);
     };
 
     var saveDocumentSuccessCallback = function (data, status, headers, config) {

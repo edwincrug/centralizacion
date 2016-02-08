@@ -301,8 +301,12 @@
         $rootScope.proveedor = null; //? 0: $rootScope.proveedor.idProveedor);
         $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);
 
-        if(fol.esPlanta == 1)
-            $rootScope.navBusqueda(fol.tipofolio,fol.nodoactual,fol.Folio_Operacion);
+        if(fol.esPlanta == 1){
+            if(fol.tipofolio == 3)
+                $rootScope.CargaEmpleado(fol.Folio_Operacion);
+            else
+                $rootScope.navBusqueda(fol.tipofolio,fol.nodoactual,fol.Folio_Operacion);
+        }
         else
             $rootScope.CargaEmpleado(fol.Folio_Operacion);
 

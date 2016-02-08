@@ -126,6 +126,16 @@
             </button>
           </div>
           <div class="botoneraDocumento" ng-hide="documento.cargar == 0 || documento.consultar == 0">
+            <button type="button" class="btn btn-primary btn-xs" tooltip="{{ documento.consultar == 1 ? 'Ver documento' : 'No puede realizar está acción' }}" ng-class="{ 'disabled': documento.consultar != 1 }" ng-click="VerDocumento(documento)"
+            ng-hide="documento.existeDoc == ''">
+              <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 
+            </button>
+            <a type="button" class="btn btn-info btn-xs" tooltip="Descargar" href="{{ documento.Ruta }}" ng-class="{ 'disabled': documento.descargar != 1 }" download ng-hide="documento.existeDoc == ''">
+              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 
+            </a>
+            <button type="button" class="btn btn-success btn-xs" tooltip="Enviar" ng-click="ShowEnviar(documento)" ng-class="{ 'disabled': documento.enviarEmail != 1 }" ng-hide="documento.existeDoc == ''">
+              <span class="glyphicon glyphicon-send" aria-hidden="true"></span>  
+            </button>
             <button type="button" class="btn btn-warning btn-xs" tooltip="Cargar documento" ng-click="ShowCargar(documento)">
               <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"></span>  
             </button>
