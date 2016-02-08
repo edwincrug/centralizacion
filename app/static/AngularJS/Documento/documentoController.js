@@ -119,7 +119,7 @@
     /// Carga de documentos
 
     $scope.ShowCargar = function(doc) {
-        $('#frameUpload').attr('src', '/uploader')
+        $('#frameUpload').attr('src', '/uploader');
         $('#modalUpload').modal('show');
         $rootScope.currentUpload = doc;
     };
@@ -145,6 +145,8 @@
 
     var saveDocumentSuccessCallback = function (data, status, headers, config) {
         alertFactory.success('Cool');
+        //actualizar los nodos para mostrar botoneras
+        goToPage($scope.currentPage);
     }
 
 
