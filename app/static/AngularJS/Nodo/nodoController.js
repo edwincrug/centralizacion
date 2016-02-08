@@ -316,7 +316,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             //Marco el nodo activo en NavBar
             SetActiveNav();
             //Cargo el contenido de nodo
-            LoadActiveNode();
+            //LoadActiveNode();
+            $rootScope.LoadActiveNode();
             
             //LQMA nodos iniciados
             $scope.iniciaNodos = 1;            
@@ -353,7 +354,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     };
 
     //Carga los documentos del nodo activo
-    var LoadActiveNode = function(){
+    //var LoadActiveNode = function(){
+    $rootScope.LoadActiveNode = function(){
         if($scope.currentNode.estatus != 1){
             $scope.isLoading = true;
             Apply();

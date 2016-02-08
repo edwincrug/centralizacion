@@ -145,8 +145,12 @@
 
     var saveDocumentSuccessCallback = function (data, status, headers, config) {
         alertFactory.success('Cool');
-        //actualizar los nodos para mostrar botoneras
-        goToPage($scope.currentPage);
+        //actualizar los nodos para mostrar botonerass
+        //goToPage($scope.currentPage);
+        setTimeout( function(){
+                $rootScope.LoadActiveNode();
+            } ,200);
+
     }
 
 
