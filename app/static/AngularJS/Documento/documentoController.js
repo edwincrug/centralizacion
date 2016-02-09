@@ -36,9 +36,7 @@
                     case 'gif': 
                                 typeAplication = 'image/gif';
                                 break;                                
-                }        
-
-                alert(arreglo[arreglo.length - 1]);
+                }
 
                 var titulo = doc.folio + ' :: ' + doc.descripcion;
                 //var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
