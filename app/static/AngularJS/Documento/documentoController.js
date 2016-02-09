@@ -25,7 +25,7 @@
                 var pdf_link = doc.existeDoc;//doc.Ruta;                
                 var arreglo =  pdf_link.split(".");
                 var typeAplication = 'application/pdf';
-                switch(arreglo[arreglo.length - 1])
+                switch(arreglo[arreglo.length - 1].toLowerCase())
                 {                    
                     case 'jpg': 
                                 typeAplication = 'image/jpeg';
@@ -35,7 +35,9 @@
                                 break;
                     case 'gif': 
                                 typeAplication = 'image/gif';
-                                break;                                
+                                break;    
+                    case 'jpeg': 
+                                typeAplication = 'image/jpeg';
                 }
 
                 var titulo = doc.folio + ' :: ' + doc.descripcion;
