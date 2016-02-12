@@ -135,6 +135,31 @@
     //////////////////////////////////////////////////////////////////////////
     /// Carga de documentos
 
+    $scope.openUpload = function(){
+
+        var documento=  {   "idProceso": 1,
+                            "idNodo":   2,
+                            "nombreNodo": "",
+                            "folio" : $rootScope.currentFolioFactura,
+                            "nombreDocumento" : "",
+                            "idDocumento" : 15,
+                            "origen" : "",
+                            "descripcion" : "",
+                            "idPerfil" : "",
+                            "consultar" : "",
+                            "imprimir" : "",
+                            "enviarEmail" : "",
+                            "descargar" : "",
+                            "cargar" : "",
+                            "estatusNombre" : "",
+                            "idEstatus" : "",
+                            "Ruta" : "",
+                            "existeDoc" : ""
+                            };        
+
+        $scope.ShowCargar(documento);
+    };
+
     $scope.ShowCargar = function(doc) {
         $('#frameUpload').attr('src', '/uploader');
         $('#modalUpload').modal('show');
@@ -168,7 +193,6 @@
                 $rootScope.LoadActiveNode();
             } ,200);
 
-    }
-
+    };
 
 });

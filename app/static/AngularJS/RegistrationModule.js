@@ -5,7 +5,11 @@
         templateUrl: '/AngularJS/Templates/Nodo.html',
         controller: 'nodoController'
     });
-
+    //LQMA add 10022016 visualizacion de la factura desde BPRO
+    $routeProvider.when('/Factura', {
+        templateUrl: '/AngularJS/Templates/Factura.html',
+        controller: 'facturaController'
+    });
 
     $locationProvider.html5Mode(true);
 });
