@@ -11,7 +11,7 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
         
         getFolio();
         getEmpleado();
-        
+        $scope.consultaInicial = 1;
         //$scope.respuesta = "1";
         $scope.respuesta = {
             opcion : '1'
@@ -51,22 +51,47 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
                 if(data != '')
                 {
                     //$scope.documento = data;
-                    var documento = '<object id="ifDocument" data="' + data + '" type="application/pdf" width="100%" height="100%"><p>Alternative text - include a link <a href="' + data + '">to the PDF!</a></p></object>';
-                    $("#divDocumento").append(documento);
+                    $scope.documentoIni = '<div><object id="ifDocument" data="' + data + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + data + '">to the PDF!</a></p></object> </div>';
+                                     // '<div class="izquierda"><object id="ifDocument" data="' + data + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + data + '">to the PDF!</a></p></object> </div>';
+                                     //+ '<div class="derecha"><object id="ifDocument2" data="http://es.tldp.org/COMO-INSFLUG/es/pdf/Linuxdoc-Ejemplo.pdf" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="http://es.tldp.org/COMO-INSFLUG/es/pdf/Linuxdoc-Ejemplo.pdf">to the PDF!</a></p></object></div>';
+
+                    facturaRepository.getDoc($rootScope.currentFolioFactura,$rootScope.currentEmployee,15) //se busca que exista la factura (id = 15) para mostrar
+                        .success(getDocRecepcionIniSuccessCallback)
+                        .error(errorCallBack);
+                    //$("#divDocumento").append(documento);
                 }
                 else{
                     alertFactory.warning('Aun no se ha subido la Factura de este folio.');
                     var documento = '<div class="noExiste"><b> El documento aun no esta disponible </b> </div>';
                     $("#divDocumento").append(documento);
+                    $("#divControles").hide();
+                    alertFactory.success('Que tenga buen día');
+                    setTimeout(function(){window.close();},3000);
                 }
         }
         else
             alertFactory.warning('No existe informacion para este folio.');        
     };
 
-    $scope.Confirmar = function() {
-        //var respuesta = element(by.binding('respuesta.opcion'));
-        alert($scope.respuesta.opcion);
+
+    var getDocRecepcionIniSuccessCallback = function(data, status, headers, config) {
+      if(data != null){
+                if(data != '')
+                {
+                    var typeAplication = $rootScope.obtieneTypeAplication(data);
+
+                    $scope.documentoIni = $scope.documentoIni.replace('<div>','<div class="izquierda">') + ' ' +
+                                            '<div class="derecha"><object id="ifDocument2" data="' + data + '" type="' + typeAplication + '" width="100%"><p>Error al cargar el documento. Intente de nuevo.</a></p></object></div>';
+
+                    if($scope.consultaInicial == 1)
+                        $("#divControles").hide();
+                }
+            }
+
+        $("#divDocumento").append($scope.documentoIni);
+    };
+
+    $scope.Confirmar = function() {        
 
         facturaRepository.getDoc($rootScope.currentFolioFactura,$rootScope.currentEmployee,15) //se busca que exista recepcion factura (id = 15)
             .success(getDocRecepcionSuccessCallback)
@@ -78,7 +103,7 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
                 if(data != '')
                 {
                     facturaRepository.setFactura($rootScope.currentFolioFactura,$rootScope.currentEmployee,$scope.respuesta.opcion) //se busca que exista recepcion factura (id = 15)
-                        .success(getDocRecepcionSuccessCallback)
+                        .success(setFacturaSuccessCallback)
                         .error(errorCallBack);
                 }
                 else
@@ -86,6 +111,37 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
         }
         else
             alertFactory.warning('No existe informacion para este folio.');
+    };
+
+    var setFacturaSuccessCallback = function(data, status, headers, config) {
+      if(data != null){
+                if(data == 0)
+                {
+                    alertFactory.success('Confirmación exitosa.');
+                    cierraVentana();
+                    
+                }
+                else
+                    alertFactory.error('Ocurrio un error al guardar. Intente de nuevo');
+        }
+        else
+            alertFactory.warning('No existe informacion para este folio.');
+    };
+
+    $rootScope.muestraDocumentos = function(){
+        //alert('Hola desde factura controller');
+        $("#divDocumento").empty();
+
+        $scope.consultaInicial = 0;
+
+        facturaRepository.getDoc($rootScope.currentFolioFactura,$rootScope.currentEmployee,20) //se busca que exista la factura (id = 20) para mostrar
+            .success(getDocSuccessCallback)
+            .error(errorCallBack);
+    };
+
+    var cierraVentana = function() {
+        alertFactory.success('Que tenga buen día');
+        setTimeout(function(){window.close();},2500);
     };
 
 });

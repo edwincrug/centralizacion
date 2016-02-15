@@ -23,8 +23,45 @@
              {   
                 //Muestra Documento
                 var pdf_link = doc.existeDoc;//doc.Ruta;                
-                var arreglo =  pdf_link.split(".");
+                /*var arreglo =  pdf_link.split(".");
                 var typeAplication = 'application/pdf';
+                switch(arreglo[arreglo.length - 1].toLowerCase())
+                {                    
+                    case 'jpg': 
+                                typeAplication = 'image/jpeg';
+                                break;    
+                    case 'png': 
+                                typeAplication = 'image/png';
+                                break;
+                    case 'gif': 
+                                typeAplication = 'image/gif';
+                                break;    
+                    case 'jpeg': 
+                                typeAplication = 'image/jpeg';
+                }*/
+
+                var typeAplication = $rootScope.obtieneTypeAplication(pdf_link);    
+
+                var titulo = doc.folio + ' :: ' + doc.descripcion;
+                //var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
+                var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="' + typeAplication +'" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
+                $.createModal({
+                    title: titulo,
+                    message: iframe,
+                    closeButton: false,
+                    scrollable: false
+                }); 
+            }
+        }
+        else{
+            alertFactory.warning('Acción no permitida para su perfil.');
+        }        
+    };
+
+    $rootScope.obtieneTypeAplication = function(ruta){
+
+        var arreglo =  ruta.split(".");
+        var typeAplication = 'application/pdf';
                 switch(arreglo[arreglo.length - 1].toLowerCase())
                 {                    
                     case 'jpg': 
@@ -40,21 +77,7 @@
                                 typeAplication = 'image/jpeg';
                 }
 
-                var titulo = doc.folio + ' :: ' + doc.descripcion;
-                //var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
-                var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="' + typeAplication +'" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
-                $.createModal({
-                    title: titulo,
-                    message: iframe,
-                    closeButton: false,
-                    scrollable: false
-                }); 
-            }
-        }
-        else{
-            alertFactory.warning('Acción no permitida para su perfil.');
-        }
-        
+        return  typeAplication;
     };
 
     $scope.NoDisponible = function() {
@@ -177,7 +200,7 @@
     };
 
     $scope.FinishUpload = function(name){
-        alertFactory.success('Cool ' + name);
+        alertFactory.success('Se guardo el documento ' + name);
         var doc = $rootScope.currentUpload;
 
         documentoRepository.saveDocument(doc.folio, doc.idDocumento, 1, 1, doc.idNodo, 1, global_settings.uploadPath + '/' + name)
@@ -186,13 +209,27 @@
     };
 
     var saveDocumentSuccessCallback = function (data, status, headers, config) {
-        alertFactory.success('Cool');
+        alertFactory.success('Documento guardado.');
         //actualizar los nodos para mostrar botonerass
-        //goToPage($scope.currentPage);
-        setTimeout( function(){
+        //goToPage($scope.currentPage);       
+
+        var url = window.location.pathname;
+        //alert(url);
+        if(url == '/Factura'){
+            $rootScope.muestraDocumentos();
+        }
+        else{
+            setTimeout( function(){
                 $rootScope.LoadActiveNode();
-            } ,200);
-
+                } ,200);
+            }
     };
-
 });
+
+/*var nameDocument = '';
+function refresh() {
+  var scope = angular.element($("#modalUpload")).scope();
+  scope.$apply(function(){
+    scope.FinishUpload(nameDocument);
+  })
+}*/

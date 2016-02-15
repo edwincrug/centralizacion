@@ -1,4 +1,5 @@
 <link href="../../css/nodo.css" rel="stylesheet" />
+<link href="../../css/factura.css" rel="stylesheet" />
 <div cg-busy="myPromise" ng-init="init()" resize>
   <div id="contenedor">
    	<section>
@@ -10,15 +11,16 @@
       </div>
     </section>
     <section>   		
-
-  	  <div class="col-xs-9" id="viewerDocs" ng-controller="documentoController">
-  	  		<input type="radio" ng-model="respuesta.opcion" value="1" ><label>SI</label>
-			<input type="radio" ng-model="respuesta.opcion" value="2" ><label>NO</label>
-  	          <button type="button" class="btn btn-warning btn-xs" tooltip="Cargar documento" ng-click="openUpload()">
-              <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"></span>
-            </button>
-      </div>
-      <button type="button" class="btn btn-primary" ng-click="Confirmar()" id="btnConfirmar" data-loading-text="Confirmando..."><span class="glyphicon glyphicon-play " aria-hidden="true"></span>Confirmar</button>
+	    <div id="divControles">
+	  	  <div class="col-xs-9" id="viewerDocs" ng-controller="documentoController">
+	  	  		<input type="radio" ng-model="respuesta.opcion" value="1" ><label>SI</label>
+				<input type="radio" ng-model="respuesta.opcion" value="2" ><label>NO</label>
+	  	          <button type="button" class="btn btn-warning btn-xs" tooltip="Cargar documento" ng-click="openUpload()">
+	              <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"></span>
+	            </button>
+	      </div>
+	      <button type="button" class="btn btn-primary" ng-click="Confirmar()" id="btnConfirmar" data-loading-text="Confirmando..."><span class="glyphicon glyphicon-play " aria-hidden="true"></span>Confirmar</button>
+      	</div>
     </section>
    </div>
 </div>

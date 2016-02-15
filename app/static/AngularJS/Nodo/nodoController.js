@@ -434,11 +434,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                     }
                 }
         }
-
         //Reinicio el tipoFolio
         
     };
-
     ///
-
 });
