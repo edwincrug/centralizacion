@@ -120,7 +120,7 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
                 if(data == 0)
                 {
                     alertFactory.success('Confirmación exitosa.');
-                    cierraVentana();
+                    $rootScope.cierraVentana();
                     
                 }
                 else
