@@ -59,14 +59,16 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
                         .success(getDocRecepcionIniSuccessCallback)
                         .error(errorCallBack);
                     //$("#divDocumento").append(documento);
+                    $('#btnSalir').hide();
                 }
                 else{
                     alertFactory.warning('Aun no se ha subido la Factura de este folio.');
                     var documento = '<div class="noExiste"><b> El documento aun no esta disponible </b> </div>';
                     $("#divDocumento").append(documento);
                     $("#divControles").hide();
-                    alertFactory.success('Que tenga buen día');
-                    setTimeout(function(){window.close();},3000);
+
+                    //alertFactory.success('Que tenga buen día');
+                    //setTimeout(function(){window.close();},3000);
                 }
         }
         else
@@ -139,9 +141,9 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
             .error(errorCallBack);
     };
 
-    var cierraVentana = function() {
+    $rootScope.cierraVentana = function() {
         alertFactory.success('Que tenga buen día');
         setTimeout(function(){window.close();},2500);
-    };
+    };    
 
 });

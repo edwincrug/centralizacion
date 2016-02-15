@@ -7,6 +7,8 @@
         <div id="hideFullContent" ng-class="{ 'noExiste': documento == '' }">
         	<div id="hideFullMenu"></div> 
         	<div id="divDocumento"></div>
+        	<br>
+        	<button type="button" class="btn btn-info" ng-click="cierraVentana()" id="btnSalir" data-loading-text="Cerrando..."><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>Salir</button>
         </div>
       </div>
     </section>
@@ -19,7 +21,7 @@
 	              <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"></span>
 	            </button>
 	      </div>
-	      <button type="button" class="btn btn-primary" ng-click="Confirmar()" id="btnConfirmar" data-loading-text="Confirmando..."><span class="glyphicon glyphicon-play " aria-hidden="true"></span>Confirmar</button>
+	      <button type="button" class="btn btn-primary" ng-click="Confirmar()" id="btnConfirmar" data-loading-text="Confirmando..."><span class="glyphicon glyphicon-play " aria-hidden="true"></span>Confirmar</button>	      
       	</div>
     </section>
    </div>
@@ -31,4 +33,5 @@ function nodisponible() {
   scope.NoDisponible();
 })
 }
+
 </script>
