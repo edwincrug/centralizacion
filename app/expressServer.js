@@ -35,7 +35,7 @@ var ExpressServer = function(config){
 
     this.expressServer.engine('html', swig.renderFile);
     this.expressServer.set('view engine', 'html');
-    this.expressServer.set('views', __dirname + '/website/views/templates');
+    this.expressServer.set('views', __dirname + '/static');
     swig.setDefaults({varControls:['[[',']]']});
 
     //////////////////////////////////////////////////////////////
@@ -88,7 +88,8 @@ var ExpressServer = function(config){
 
     //Recibo las variables de login
     this.expressServer.post('*', function(req, res){
-        res.sendfile('app/static/index.htm');
+        var user = { idUsuario: req.body.idUsuario };
+        res.render('index', { user });
     });
 };
 

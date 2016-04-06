@@ -37,14 +37,17 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Obtiene el empleado actual
     var getEmpleado = function(){
-        if(getParameterByName('employee') != ''){
-            $rootScope.currentEmployee = getParameterByName('employee');
-        }
+        // if(getParameterByName('employee') != ''){
+        //     $rootScope.currentEmployee = getParameterByName('employee');
+        // }
 
-        if ($rootScope.currentEmployee == null){
-            var idEmpleado = prompt("Ingrese un número de empleado", 1);
-            $rootScope.currentEmployee = idEmpleado;
-        }
+        // if ($rootScope.currentEmployee == null){
+        //     var idEmpleado = prompt("Ingrese un número de empleado", 1);
+        //     $rootScope.currentEmployee = idEmpleado;
+        // }
+        
+        //Obtengo el empleado logueado
+        $rootScope.currentEmployee = $('#lgnUser').val();
     };
 
     var getEmpleadoSuccessCallback = function (data, status, headers, config) {
