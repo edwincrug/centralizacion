@@ -35,7 +35,7 @@ var ExpressServer = function(config){
 
     this.expressServer.engine('html', swig.renderFile);
     this.expressServer.set('view engine', 'html');
-    this.expressServer.set('views', __dirname + '/static');
+    this.expressServer.set('views', __dirname + '/static/');
     swig.setDefaults({varControls:['[[',']]']});
 
     //////////////////////////////////////////////////////////////

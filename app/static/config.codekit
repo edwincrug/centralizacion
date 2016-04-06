@@ -134,17 +134,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/AngularJS\/Nodo\/min\/nodoController-min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/AngularJS\/Nodo\/min\/nodoController-min.js",
-		"outputAbbreviatedPath": "\/AngularJS\/Nodo\/min\/min\/nodoController-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/AngularJS\/Nodo\/min\/nodoRepository-min.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -173,17 +162,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/AngularJS\/Nodo\/min\/wizardRepository-min.js",
 		"outputAbbreviatedPath": "\/AngularJS\/Nodo\/min\/min\/wizardRepository-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/AngularJS\/Nodo\/nodoController.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/AngularJS\/Nodo\/nodoController.js",
-		"outputAbbreviatedPath": "\/AngularJS\/Nodo\/min\/nodoController-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -774,15 +752,6 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
-		},
-	"\/index.htm": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/index.htm",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
 		},
 	"\/js\/_references.js": {
 		"fileType": 64,
