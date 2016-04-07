@@ -121,11 +121,11 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Abre una orden padre o hijo
     $scope.VerOrdenPadre = function(exp){
-        location.href = '/?id=' + exp.folioPadre + '&employee=1';
+        location.href = '/?id=' + exp.folioPadre;
     };
 
     $scope.VerOrdenHijo = function(exp){
-        location.href = '/?id=' + exp.folioHijo + '&employee=1';
+        location.href = '/?id=' + exp.folioHijo;
     };
 
     ////////////////////////////////////////////////////////////////////////////
