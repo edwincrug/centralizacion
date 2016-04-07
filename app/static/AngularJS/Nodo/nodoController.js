@@ -37,17 +37,17 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Obtiene el empleado actual
     var getEmpleado = function(){
-        // if(getParameterByName('employee') != ''){
-        //     $rootScope.currentEmployee = getParameterByName('employee');
-        // }
-
-        // if ($rootScope.currentEmployee == null){
-        //     var idEmpleado = prompt("Ingrese un número de empleado", 1);
-        //     $rootScope.currentEmployee = idEmpleado;
-        // }
-        
+        if(!($('#lgnUser').val().indexOf('[') > -1)){
+            localStorageService.set('lgnUser', $('#lgnUser').val());
+        }
+        else{
+            if(($('#lgnUser').val().indexOf('[') > -1) && !localStorageService.get('lgnUser')){
+                alert('Inicie sesión desde panel de aplicaciones.');
+                window.close();
+            }
+        }
         //Obtengo el empleado logueado
-        $rootScope.currentEmployee = $('#lgnUser').val();
+        $rootScope.currentEmployee = localStorageService.get('lgnUser');
     };
 
     var getEmpleadoSuccessCallback = function (data, status, headers, config) {
