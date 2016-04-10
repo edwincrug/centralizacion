@@ -89,8 +89,8 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
                     $scope.documentoIni = $scope.documentoIni.replace('<div>','<div class="izquierda">') + ' ' +
                                             '<div class="derecha"><object id="ifDocument2" data="' + data + '" type="' + typeAplication + '" width="100%"><p>Error al cargar el documento. Intente de nuevo.</a></p></object></div>';
 
-                    if($scope.consultaInicial == 1)
-                        $("#divControles").hide();
+                    /*if($scope.consultaInicial == 1)
+                        $("#divControles").hide();*/
                 }
             }
 
