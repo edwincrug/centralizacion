@@ -71,8 +71,12 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
                     //setTimeout(function(){window.close();},3000);
                 }
         }
-        else
-            alertFactory.warning('No existe informacion para este folio.');        
+        else{
+            alertFactory.warning('Aun no se ha subido la Factura de este folio.');     
+            var documento = '<div class="noExiste"><b> El documento aun no esta disponible </b> </div>';
+            $("#divDocumento").append(documento);
+            $("#divControles").hide();  
+        } 
     };
 
 
