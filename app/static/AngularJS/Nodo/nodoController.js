@@ -42,8 +42,14 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         }
         else{
             if(($('#lgnUser').val().indexOf('[') > -1) && !localStorageService.get('lgnUser')){
-                alert('Inicie sesión desde panel de aplicaciones.');
-                window.close();
+                if(!getParameterByName('employee')){
+                    $rootScope.currentEmployee = getParameterByName('employee');
+                }
+                else{
+                   alert('Inicie sesión desde panel de aplicaciones.');
+                    window.close(); 
+                }
+                
             }
         }
         //Obtengo el empleado logueado
