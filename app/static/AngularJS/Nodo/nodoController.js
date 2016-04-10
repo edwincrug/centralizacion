@@ -18,12 +18,12 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
     //Grupo de funciones de inicio
     $scope.init = function () {        
-
-        getEmpleado();
-        //Obtengo los datos del empleado loguado
+        //Obtengo el idempleado
+        getEmpleado()
+        //Obtengo los datos del empleado loguedo
         empleadoRepository.get($rootScope.currentEmployee)
-            .success(getEmpleadoSuccessCallback)
-            .error(errorCallBack);
+                .success(getEmpleadoSuccessCallback)
+                .error(errorCallBack);
     };
 
     $rootScope.CargaEmpleado = function(id){
@@ -42,8 +42,9 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         }
         else{
             if(($('#lgnUser').val().indexOf('[') > -1) && !localStorageService.get('lgnUser')){
-                if(!getParameterByName('employee')){
+                if(getParameterByName('employee') != ''){
                     $rootScope.currentEmployee = getParameterByName('employee');
+                    return;
                 }
                 else{
                    alert('Inicie sesión desde panel de aplicaciones.');
