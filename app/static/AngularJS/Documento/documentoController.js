@@ -184,9 +184,15 @@
     };
 
     $scope.ShowCargar = function(doc) {
-        $('#frameUpload').attr('src', '/uploader');
-        $('#modalUpload').modal('show');
-        $rootScope.currentUpload = doc;
+        if(doc.idDocumento == 15){
+            location.href = '/factura?id=' + doc.folio + '&employee=' + $rootScope.currentEmployee;
+        }
+        else{
+            $('#frameUpload').attr('src', '/uploader');
+            $('#modalUpload').modal('show');
+            $rootScope.currentUpload = doc; 
+        }
+
     };
 
     var uploadSuccessCallback = function (data, status, headers, config) {
