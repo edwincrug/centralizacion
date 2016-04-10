@@ -6,7 +6,7 @@
         controller: 'nodoController'
     });
     //LQMA add 10022016 visualizacion de la factura desde BPRO
-    $routeProvider.when('/Factura', {
+    $routeProvider.when('/factura', {
         templateUrl: '/AngularJS/Templates/Factura.html',
         controller: 'facturaController'
     });
