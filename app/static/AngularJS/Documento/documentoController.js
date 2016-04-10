@@ -184,7 +184,7 @@
     };
 
     $scope.ShowCargar = function(doc) {
-        if(doc.idDocumento == 15){
+        if(doc.idDocumento == 15 && window.location.pathname != '/factura'){
             location.href = '/factura?id=' + doc.folio + '&employee=' + $rootScope.currentEmployee;
         }
         else{
@@ -221,7 +221,7 @@
 
         var url = window.location.pathname;
         //alert(url);
-        if(url == '/Factura'){
+        if(url == '/factura'){
             $rootScope.muestraDocumentos();
         }
         else{
