@@ -78,9 +78,23 @@
   text-align: center;
 }
 
-#estatus {
+.estatus {
   background-color: rgba(83, 181, 132, 0.88);
   border: 1px solid rgba(83, 181, 132, 0.88);
+  margin-top: -1px;
+  height: 32px;
+  margin-right: 0px;
+  padding-top: 5px;
+  border-radius: 0px 0px 5px 0px;
+  position: absolute;
+  right: 0;
+  color: white;
+  text-align: center;
+}
+
+.cancelado {
+  background-color: #e10b0b;
+  border: 1px solid #e10b0b;
   margin-top: -1px;
   height: 32px;
   margin-right: 0px;
@@ -234,6 +248,11 @@
 }
 
 #ifDocument {
+  width: 100%;
+  height: 500px;
+}
+
+#ifDocument2 {
   width: 100%;
   height: 500px;
 }
