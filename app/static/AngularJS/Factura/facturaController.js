@@ -147,7 +147,8 @@ registrationModule.controller("facturaController", function ($scope, $rootScope,
 
     $rootScope.cierraVentana = function() {
         alertFactory.success('Que tenga buen día');
-        setTimeout(function(){window.close();},2500);
+        //setTimeout(function(){window.close();},2500);
+        setTimeout(function(){window.location.href='http://' + location.host + '/?id=' + $rootScope.currentFolioFactura + '&employee=' + $rootScope.currentEmployee;},2500);
     };    
 
 });
