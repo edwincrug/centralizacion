@@ -3,7 +3,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     //Propiedades
     $scope.isLoading = false;
     $scope.idProceso = 1;
-    $scope.perfil = 1;
+   // $rootScope.perfil = 1;
 
     //Deshabilitamos el clic derecho en toda la aplicación
     //window.frames.document.oncontextmenu = function(){ alertFactory.error('Función deshabilitada en digitalización.'); return false; };
@@ -370,7 +370,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             $scope.isLoading = true;
             Apply();
             //Consulta el repositorio
-            documentoRepository.getByNodo($scope.currentNode.id,$scope.currentNode.folio,$scope.perfil)
+            documentoRepository.getByNodo($scope.currentNode.id,$scope.currentNode.folio,$rootScope.empleado.idPerfil)
                 .success(getDocumentosSuccessCallback)
                 .error(errorCallBack);
         }
