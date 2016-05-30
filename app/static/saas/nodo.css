@@ -13,7 +13,7 @@
   padding: 4px;
   font-size: 11px;
   border-radius: 5px 0px 0px 5px;
-  margin-top: 30px;
+  margin-top: 31px;
 }
 
 #header {
@@ -233,13 +233,13 @@
 /*Estilos para el visor de documentos*/
 #hideFullMenu {
   background-color: transparent;
-  height: 43px;
+  height: 76px;
   position: absolute;
   right: 0;
-  margin-right: 44px;
-  bottom: 0;
+  margin-right: 72px;
+  top: 0;
   margin-bottom: 30px;
-  width: 272px;
+  width: 150px;
   z-index: 2147483647;
 }
 

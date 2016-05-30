@@ -28,7 +28,7 @@
                     //Si es cargable o 20 sale de esta ruta
                     //Muestra Documento
                     //Factura si se debe tomar de esta URL
-                    var pdf_link = doc.existeDoc; //doc.Ruta;                
+                    /////////var pdf_link = doc.existeDoc; //doc.Ruta;                
                     //var arreglo =  pdf_link.split(".");
                     /*
                     var typeAplication = 'application/pdf';
@@ -48,16 +48,46 @@
                                     typeAplication = 'image/jpeg';
                     }
                     */
-                    var typeAplication = $rootScope.obtieneTypeAplication(pdf_link);
-                    var titulo = doc.folio + ' :: ' + doc.descripcion;
-                    var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
-                    var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="' + typeAplication + '" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
-                    $.createModal({
+                    /////////var typeAplication = $rootScope.obtieneTypeAplication(pdf_link);
+                    /////////var titulo = doc.folio + ' :: ' + doc.descripcion;
+
+                    if (doc.descargar == 1) {
+                        //alertFactory.warning('Puede descargar el archivo.');
+                        var pdf_link = doc.existeDoc; //doc.Ruta;
+                        var typeAplication = $rootScope.obtieneTypeAplication(pdf_link);
+                        var titulo = doc.folio + ' :: ' + doc.descripcion;
+                        var iframe = '<div id="hideFullContent"><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
+                        var iframe = '<div id="hideFullContent"><div onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="' + typeAplication + '" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
+                        $.createModal({
+                            title: titulo,
+                            message: iframe,
+                            closeButton: false,
+                            scrollable: false
+                        });
+                    } 
+                    else {
+                        //alertFactory.warning('Noooooo Puede descargar el archivo.');
+                        var pdf_link = doc.existeDoc; //doc.Ruta;
+                        var typeAplication = $rootScope.obtieneTypeAplication(pdf_link);
+                        var titulo = doc.folio + ' :: ' + doc.descripcion;
+                        var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
+                        var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="' + typeAplication + '" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
+                        $.createModal({
+                            title: titulo,
+                            message: iframe,
+                            closeButton: false,
+                            scrollable: false
+                        });
+                    }
+
+                    // var iframe = '<div id="hideFullContent"><div id="hideFullMenu"> </div><iframe id="ifDocument" src="' + pdf_link + '" frameborder="0"></iframe> </div>';
+                    //var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf_link + '" type="' + typeAplication + '" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf_link + '">to the PDF!</a></p></object> </div>';
+                    /*$.createModal({
                         title: titulo,
                         message: iframe,
                         closeButton: false,
                         scrollable: false
-                    });
+                    });*/
                     
                 }
                 else {
@@ -70,7 +100,7 @@
                     var titulo = doc.folio + ' :: ' + doc.descripcion;
                     //Mando a llamar la URL desde el div sustituyendo el pdf
                     /////////  $("<object id='pdfDisplay' data='" + pdf + "' width='100%' height='400px' >").appendTo('#pdfContent');
-                    var iframe = '<div id="hideFullContent"><div id="hideFullMenu" onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf + '" type="' + typeAplication + '" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf + '">to the PDF!</a></p></object> </div>';
+                    var iframe = '<div id="hideFullContent"><div onclick="nodisponible()" ng-controller="documentoController"> </div> <object id="ifDocument" data="' + pdf + '" type="' + typeAplication + '" width="100%" height="100%"><p>Alternative text - include a link <a href="' + pdf + '">to the PDF!</a></p></object> </div>';
                     $.createModal({
                         title: titulo,
                         message: iframe,
@@ -109,7 +139,8 @@
     };
 
     $scope.NoDisponible = function() {
-        alertFactory.error('Función deshabilitada en digitalización.');
+        //alertFactory.error('Función deshabilitada en digitalización.');
+        alertFactory.warning('Acción no permitida para su perfil.');
     };
 
     ///////////////////////////////////////////////////////////////////////////////////
