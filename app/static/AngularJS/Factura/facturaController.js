@@ -1,5 +1,5 @@
 registrationModule.controller("facturaController", function($scope, $rootScope, utils, localStorageService, alertFactory, documentoRepository, alertaRepository, empleadoRepository, facturaRepository) {
- 
+
 
     //Mensajes en caso de error
     var errorCallBack = function(data, status, headers, config) {
@@ -12,6 +12,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
 
         getFolio();
         getEmpleado();
+        getIdAprobacion();
         //LMS 09/05/2016 Obtengo lista de documentos
         getListaDocumentos();
 
@@ -32,6 +33,18 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
             $rootScope.currentFolioFactura = idFolioFactura;
         }
     };
+    //LMS 08/06/2016
+    var getIdAprobacion = function() {
+        if (getParameterByName('idAprobacion') != '') {
+            $rootScope.currentIdAprobacion = getParameterByName('idAprobacion');
+            alert($rootScope.currentIdAprobacion);
+        }
+
+        if ($rootScope.currentIdAprobacion == null) {
+            var idAprobacion = prompt("Ingrese un idAprobacion", 1);
+            $rootScope.currentIdAprobacion = idAprobacion;
+        }
+    };
 
     var getEmpleado = function() {
         if (getParameterByName('employee') != '') {
@@ -44,45 +57,54 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         }
 
         //setTimeout(function(){ 
-        facturaRepository.getDoc($rootScope.currentFolioFactura, $rootScope.currentEmployee, 20) //se busca que exista la factura (id = 20) para mostrar
+        facturaRepository.getDoc($rootScope.currentFolioFactura, $rootScope.currentEmployee, 11) //se busca que exista la factura (id = 20) para mostrar
             .success(getDocSuccessCallback)
             .error(errorCallBack);
         //},2000);
     };
 
+
     //LMS 09/05/2016 Funcion que obtiene la lista de documentos del Nodo 7 
     var getListaDocumentos = function() {
-    documentoRepository.getByNodo('7', $rootScope.currentFolioFactura, getParameterByName('perfil'))
-        .success(getByNodoSuccessCallback)
-        .error(errorCallBack);
+        documentoRepository.getByNodo('7', $rootScope.currentFolioFactura, getParameterByName('perfil'))
+            .success(getByNodoSuccessCallback)
+            .error(errorCallBack);
     }
 
     //LMS 09/05/2016 Success de obtener todos los documentos del Nodo 7
-   var getByNodoSuccessCallback = function(data, status, headers, config) {
-       if (data != null) {
-           $scope.listaDocumentos = data;
-           //alertFactory.success('Lista de Documentos cargada');
-       }
-       else {
-                alertFactory.warning('No hay documentos para Mostrar');
-        }        
-   }
+    var getByNodoSuccessCallback = function(data, status, headers, config) {
+        if (data != null) {
+            $scope.listaDocumentos = data;
+            //alertFactory.success('Lista de Documentos cargada');
+        } else {
+            alertFactory.warning('No hay documentos para Mostrar');
+        }
+    }
 
     var getDocSuccessCallback = function(data, status, headers, config) {
         if (data != null) {
             if (data != '') {
                 //$scope.documento = data;
-                $scope.documentoIni = '<div><object id="ifDocument" data="' + data + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + data + '">to the PDF!</a></p></object> </div>';
+                //$scope.documentoIni = '<div><object id="ifDocument" data="' + data + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + data + '">to the PDF!</a></p></object> </div>';
+
+                documentoRepository.getPdf('OCO', $rootScope.currentFolioFactura, 1).then(function(d) {
+                    //Creo la URL
+                    var pdf = URL.createObjectURL(utils.b64toBlob(d.data[0].arrayB, "application/pdf"))
+                    $scope.documentoIni = '<div><div class="css-label radGroup2">ORDEN DE COMPRA</div><object id="ifDocument" data="' + pdf + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + pdf + '">to the PDF!</a></p></object> </div>';
+                    //Muestra el documento
+                    $("#divDocumento").append($scope.documentoIni);
+                });
+
                 // '<div class="izquierda"><object id="ifDocument" data="' + data + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + data + '">to the PDF!</a></p></object> </div>';
                 //+ '<div class="derecha"><object id="ifDocument2" data="http://es.tldp.org/COMO-INSFLUG/es/pdf/Linuxdoc-Ejemplo.pdf" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="http://es.tldp.org/COMO-INSFLUG/es/pdf/Linuxdoc-Ejemplo.pdf">to the PDF!</a></p></object></div>';
-
-                facturaRepository.getDoc($rootScope.currentFolioFactura, $rootScope.currentEmployee, 15) //se busca que exista la factura (id = 15) para mostrar
+                /*
+                facturaRepository.getDoc($rootScope.currentFolioFactura, $rootScope.currentEmployee, 11) //se busca que exista la factura (id = 15) para mostrar
                     .success(getDocRecepcionIniSuccessCallback)
-                    .error(errorCallBack);
-                //$("#divDocumento").append(documento);
+                    .error(errorCallBack);*/
+                //$("#divDocumento").append(documento); 
                 $('#btnSalir').hide();
             } else {
-                alertFactory.warning('Aun no se ha subido la Factura de este folio.');
+                alertFactory.warning('Aun no se ha subido ningun documento de este folio.');
                 var documento = '<div class="noExiste"><b> El documento aun no esta disponible </b> </div>';
                 $("#divDocumento").append(documento);
                 $("#divControles").hide();
@@ -91,7 +113,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
                 //setTimeout(function(){window.close();},3000);
             }
         } else {
-            alertFactory.warning('Aun no se ha subido la Factura de este folio.');
+            alertFactory.warning('Aun no se ha subido ningun documento de este folio.');
             var documento = '<div class="noExiste"><b> El documento aun no esta disponible </b> </div>';
             $("#divDocumento").append(documento);
             $("#divControles").hide();
@@ -104,10 +126,9 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         if (data != null) {
             if (data != '') {
                 var typeAplication = $rootScope.obtieneTypeAplication(data);
-
-                $scope.documentoIni = $scope.documentoIni.replace('<div>', '<div class="izquierda">') + ' ' +
+                /*$scope.documentoIni = $scope.documentoIni.replace('<div>', '<div class="izquierda">') + ' ' +
                     '<div class="derecha"><object id="ifDocument2" data="' + data + '" type="' + typeAplication + '" width="100%"><p>Error al cargar el documento. Intente de nuevo.</a></p></object></div>';
-
+                */
                 /*if($scope.consultaInicial == 1)
                     $("#divControles").hide();*/
             }
@@ -128,7 +149,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         if (data != null) {
             if (data != '') {
                 //alertFactory.warning('Estoy en la funcion getDocRecepcionSuccessCallback 2.111'); //Agregado Lulu 17may2016 
-                facturaRepository.setFactura($rootScope.currentFolioFactura, $rootScope.currentEmployee, $scope.respuesta.opcion) //se busca que exista recepcion factura (id = 15)
+                facturaRepository.setFactura($rootScope.currentFolioFactura, $rootScope.currentEmployee, $scope.respuesta.opcion, $rootScope.currentIdAprobacion) //se busca que exista recepcion factura (id = 15)
                     .success(setFacturaSuccessCallback)
                     .error(errorCallBack);
             } else
@@ -146,7 +167,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
                 $rootScope.cierraVentana();
 
             } else
-                //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3 estoy en el ELSE'); //Agregado Lulu 17may2016 
+            //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3 estoy en el ELSE'); //Agregado Lulu 17may2016 
                 alertFactory.error('Ocurrio un error al guardar. Intente de nuevo');
         } else
             alertFactory.warning('No existe informacion para este folio.');
@@ -158,7 +179,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
 
         $scope.consultaInicial = 0;
 
-        facturaRepository.getDoc($rootScope.currentFolioFactura, $rootScope.currentEmployee, 20) //se busca que exista la factura (id = 20) para mostrar
+        facturaRepository.getDoc($rootScope.currentFolioFactura, $rootScope.currentEmployee, 11) //se busca que exista la factura (id = 20) para mostrar
             .success(getDocSuccessCallback)
             .error(errorCallBack);
     };
@@ -169,50 +190,86 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         setTimeout(function() { window.location.href = 'http://' + location.host + '/?id=' + $rootScope.currentFolioFactura + '&employee=' + $rootScope.currentEmployee; }, 2500);
     };
 
-    
+
     //LMS 09/05/2016 Funcion para ver que documentos se encuentran seleccionados
     $scope.CompararDocumentos = function() {
-        
+
         $scope.contadorSeleccionado = 0;
+        $scope.contadorExiste = 0;
+        $scope.nombreDocNull = null;
         //Limpiamos el div
-        $("#divDocumento").empty();
+        //$("#divDocumento").empty();
 
         angular.forEach($scope.listaDocumentos, function(value, key) {
             //alert(value.nombreDocumento + 'Seleccionado: ' + value.seleccionado);
             //contador de seleccionado
             if (value.seleccionado == true) {
                 $scope.contadorSeleccionado++;
+                alert(value.existeDoc);
+                if (value.existeDoc != '' && value.existeDoc != null) {
+                    $scope.contadorExiste++;
+                } else {
+                    $scope.nombreDocNull = value.nombreDocumento;
+                }
             }
         });
 
-        if ($scope.contadorSeleccionado <= 2) {
-            //alert('Seleccion correcta: ' + $scope.contadorSeleccionado);
-            
-            angular.forEach($scope.listaDocumentos, function(value, key) {  
-            //contador de seleccionado
-            if (value.seleccionado == true) {
+        //alert('Contador selec ' + $scope.contadorSeleccionado + ' Existe: ' + $scope.contadorExiste);
 
-                $scope.documentoSel = value;    
-                if (value.idDocumento == 20  || value.cargar == true) {                           
-                    $scope.documentoSel = '<div class="derecha"><object id="ifDocument" data="' + value.existeDoc + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + value.existeDoc + '">to the PDF!</a></p></object> </div>';
-                    //Muestra el documento
-                    $("#divDocumento").append($scope.documentoSel);
-                }
-                else {
-                    documentoRepository.getPdf(value.tipo, value.folio, value.idNodo).then(function(d) {
-                        //Creo la URL
-                        var pdf = URL.createObjectURL(utils.b64toBlob(d.data[0].arrayB, "application/pdf"))
-                        $scope.documentoSel = '<div class="derecha"><object id="ifDocument" data="' + pdf + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + pdf + '">to the PDF!</a></p></object> </div>';
-                        //Muestra el documento
-                        $("#divDocumento").append($scope.documentoSel);
-                    });    
+        if ($scope.contadorSeleccionado != $scope.contadorExiste) {
+            alertFactory.warning('No existe el documento : ' + $scope.nombreDocNull);
+        } else {
+            alert('Mostrar los doc selecionados' + $scope.contadorSeleccionado + ' ');
+            $("#divDocumento").empty();
 
+            if ($scope.contadorSeleccionado <= 2) {
+                //alert('Seleccion correcta: ' + $scope.contadorSeleccionado);            
+                angular.forEach($scope.listaDocumentos, function(value, key) {
+                    //contador de seleccionado
+                    if (value.seleccionado == true && $scope.contadorSeleccionado == 2) {
+                        $scope.documentoSel = value;
+                        if (value.idDocumento == 20 || value.cargar == true) {
+                            $scope.documentoSel = '<div class="derecha"><div class="css-label radGroup2">' + value.nombreDocumento + '</div><object id="ifDocument" data="' + value.existeDoc + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + value.existeDoc + '">to the PDF!</a></p></object> </div>';
+                            //Muestra el documento
+                            $("#divDocumento").append($scope.documentoSel);
+                        } else {
+                            documentoRepository.getPdf(value.tipo, value.folio, value.idNodo).then(function(d) {
+                                //Creo la URL
+                                var pdf = URL.createObjectURL(utils.b64toBlob(d.data[0].arrayB, "application/pdf"))
+                                $scope.documentoSel = '<div class="derecha"><div class="css-label radGroup2">' + value.nombreDocumento + '</div><object id="ifDocument" data="' + pdf + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + pdf + '">to the PDF!</a></p></object> </div>';
+                                //Muestra el documento
+                                $("#divDocumento").append($scope.documentoSel);
+                            });
+
+                        }
+                    } else {
+                        if (value.seleccionado == true && $scope.contadorSeleccionado == 1) {
+                            $scope.documentoSel = value;
+                            if (value.idDocumento == 20 || value.cargar == true) {
+                                $scope.documentoSel = '<div><div class="css-label radGroup2">' + value.nombreDocumento + '</div><object id="ifDocument" data="' + value.existeDoc + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + value.existeDoc + '">to the PDF!</a></p></object> </div>';
+                                //Muestra el documento
+                                $("#divDocumento").append($scope.documentoSel);
+                            } else {
+                                documentoRepository.getPdf(value.tipo, value.folio, value.idNodo).then(function(d) {
+                                    //Creo la URL
+                                    var pdf = URL.createObjectURL(utils.b64toBlob(d.data[0].arrayB, "application/pdf"))
+                                    $scope.documentoSel = '<div><div class="css-label radGroup2">' + value.nombreDocumento + '</div><object id="ifDocument" data="' + pdf + '" type="application/pdf" width="100%"><p>Alternative text - include a link <a href="' + pdf + '">to the PDF!</a></p></object> </div>';
+                                    //Muestra el documento
+                                    $("#divDocumento").append($scope.documentoSel);
+                                });
+
+                            }
+                        }
+                    }
+                });
+
+            } else {
+                if ($scope.contadorSeleccionado == 0) {
+                    alertFactory.warning('Debes elegir un documento');
+                } else {
+                    alertFactory.warning('Debes elegir solo 2 documentos');
                 }
             }
-            });
-            
-        } else {
-            alertFactory.warning('Elige solo 2 documentos');
         }
     }
 
@@ -220,6 +277,4 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
     //$scope.SeleccionaDocumento = function(documento) {
     //    alertFactory.success(documento.seleccionado);
     //}
-
-    
 });
