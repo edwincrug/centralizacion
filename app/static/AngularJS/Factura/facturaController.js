@@ -205,7 +205,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
             //contador de seleccionado
             if (value.seleccionado == true) {
                 $scope.contadorSeleccionado++;
-                alert(value.existeDoc);
+                //alert(value.existeDoc);
                 if (value.existeDoc != '' && value.existeDoc != null) {
                     $scope.contadorExiste++;
                 } else {
