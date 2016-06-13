@@ -219,7 +219,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         if ($scope.contadorSeleccionado != $scope.contadorExiste) {
             alertFactory.warning('No existe el documento : ' + $scope.nombreDocNull);
         } else {
-            alert('Mostrar los doc selecionados' + $scope.contadorSeleccionado + ' ');
+            //alert('Mostrar los doc selecionados' + $scope.contadorSeleccionado + ' ');
             $("#divDocumento").empty();
 
             if ($scope.contadorSeleccionado <= 2) {
