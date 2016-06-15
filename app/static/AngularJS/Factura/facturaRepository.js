@@ -6,7 +6,7 @@ registrationModule.factory('facturaRepository', function ($http) {
                     return $http.get(facturaUrl + '1|' + folio + '|' + idperfil + '|' + idDoc);
                 },
                 setFactura: function (folio,idperfil,opcion,idAprobacion) {//ins_factura_entrega_sp
-                    return $http.post(facturaUrl + '1|' + folio + '|' + idperfil + '|' + opcion  + idAprobacion);
+                    return $http.post(facturaUrl + '1|' + folio + '|' + idperfil + '|' + opcion  + '|' + idAprobacion);
                 }
             };
 });
