@@ -145,10 +145,10 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
     };
 
     var getDocRecepcionSuccessCallback = function(data, status, headers, config) {
-        //alertFactory.warning('Estoy en la funcion getDocRecepcionSuccessCallback 2'); //Agregado Lulu 17may2016 
+        //alertFactory.warning('Estoy en la funcion getDocRecepcionSuccessCallback Emple: ' + $rootScope.currentEmployee + ' Resp:'+$scope.respuesta.opcion + ' Aprob: ' + $rootScope.currentIdAprobacion); //Agregado Lulu 17may2016 
         if (data != null) {
             if (data != '') {
-                //alertFactory.warning('Estoy en la funcion getDocRecepcionSuccessCallback 2.111'); //Agregado Lulu 17may2016 
+                //alertFactory.warning('ins_factura_entrega_sp(folio,idperfil,opcion,idAprobacion)'); //Agregado Lulu 17may2016 
                 facturaRepository.setFactura($rootScope.currentFolioFactura, $rootScope.currentEmployee, $scope.respuesta.opcion, $rootScope.currentIdAprobacion) //se busca que exista recepcion factura (id = 15)
                     .success(setFacturaSuccessCallback)
                     .error(errorCallBack);
@@ -159,16 +159,23 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
     };
 
     var setFacturaSuccessCallback = function(data, status, headers, config) {
-        //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3'); //Agregado Lulu 17may2016 
+        //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback::: ' + data); //Agregado Lulu 17may2016 
         if (data != null) {
             if (data == 0) {
                 //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3.1111'); //Agregado Lulu 17may2016 
-                alertFactory.success('Confirmación exitosa.');
-                $rootScope.cierraVentana();
-
+                alertFactory.warning('La Factura No coincide por Monto.');
+                //$rootScope.cierraVentana();
             } else
+                if (data == 1) {
             //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3 estoy en el ELSE'); //Agregado Lulu 17may2016 
-                alertFactory.error('Ocurrio un error al guardar. Intente de nuevo');
+                alertFactory.success('La factura Coincide');
+                $rootScope.cierraVentana();
+                }  
+                else
+                if (data >= 2) {
+            //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3 estoy en el ELSE'); //Agregado Lulu 17may2016 
+                alertFactory.success('Valor mayor o igual a 2');
+                }  
         } else
             alertFactory.warning('No existe informacion para este folio.');
     };
@@ -185,7 +192,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
     };
 
     $rootScope.cierraVentana = function() {
-        alertFactory.success('Que tenga buen día');
+        //alertFactory.success('Que tenga buen día');
         //setTimeout(function(){window.close();},2500);
         setTimeout(function() { window.location.href = 'http://' + location.host + '/?id=' + $rootScope.currentFolioFactura + '&employee=' + $rootScope.currentEmployee; }, 2500);
     };
