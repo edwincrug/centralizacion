@@ -161,20 +161,22 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
     var setFacturaSuccessCallback = function(data, status, headers, config) {
         //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback::: ' + data); //Agregado Lulu 17may2016 
         if (data != null) {
-            if (data == 0) {
-                //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3.1111'); //Agregado Lulu 17may2016 
+            if (data == 0 && $scope.respuesta.opcion ==1) {
+                //Agregado Lulu 17may2016 
                 alertFactory.warning('El importe de la factura es diferente al de la Orden de Compra.');
                 //$rootScope.cierraVentana();
             } else
-                if (data == 1) {
-            //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3 estoy en el ELSE'); //Agregado Lulu 17may2016 
+                if (data == 1 && $scope.respuesta.opcion ==1) { 
                 alertFactory.success('La factura Coincide');
                 $rootScope.cierraVentana();
                 }  
                 else
-                if (data == 3) {
-            //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3 estoy en el ELSE'); //Agregado Lulu 17may2016 
-                alertFactory.warning('La factura No coincide');
+                if (data == 1 && $scope.respuesta.opcion != 1) { 
+                alertFactory.warning('La factura No coincide y se desvincula correctamente');
+                }
+                else
+                if (data == 0 && $scope.respuesta.opcion != 1) { 
+                alertFactory.warning('La factura No coincide y No  se pudo desvincular');
                 }  
         } else
             alertFactory.warning('No existe informacion para este folio.');
