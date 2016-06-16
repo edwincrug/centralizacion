@@ -149,7 +149,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         if (data != null) {
             if (data != '') {
                 //alertFactory.warning('ins_factura_entrega_sp(folio,idperfil,opcion,idAprobacion)'); //Agregado Lulu 17may2016 
-                facturaRepository.setFactura($rootScope.currentFolioFactura, $rootScope.currentEmployee, $scope.respuesta.opcion, $rootScope.currentIdAprobacion) //se busca que exista recepcion factura (id = 15)
+                facturaRepository.setFactura($rootScope.currentFolioFactura, $rootScope.currentEmployee, $scope.respuesta.opcion, $rootScope.currentIdAprobacion) 
                     .success(setFacturaSuccessCallback)
                     .error(errorCallBack);
             } else
@@ -163,7 +163,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         if (data != null) {
             if (data == 0) {
                 //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3.1111'); //Agregado Lulu 17may2016 
-                alertFactory.warning('La Factura No coincide por Monto.');
+                alertFactory.warning('El importe de la factura es diferente al de la Orden de Compra.');
                 //$rootScope.cierraVentana();
             } else
                 if (data == 1) {
@@ -172,9 +172,9 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
                 $rootScope.cierraVentana();
                 }  
                 else
-                if (data >= 2) {
+                if (data == 3) {
             //alertFactory.warning('Estoy en la funcion setFacturaSuccessCallback 3 estoy en el ELSE'); //Agregado Lulu 17may2016 
-                alertFactory.success('Valor mayor o igual a 2');
+                alertFactory.warning('La factura No coincide');
                 }  
         } else
             alertFactory.warning('No existe informacion para este folio.');
