@@ -12,7 +12,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
 
         getFolio();
         getEmpleado();
-        getIdAprobacion();
+        //getIdAprobacion();
         //LMS 09/05/2016 Obtengo lista de documentos
         getListaDocumentos();
 
@@ -149,7 +149,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         if (data != null) {
             if (data != '') {
                 //alertFactory.warning('ins_factura_entrega_sp(folio,idperfil,opcion,idAprobacion)'); //Agregado Lulu 17may2016 
-                facturaRepository.setFactura($rootScope.currentFolioFactura, $rootScope.currentEmployee, $scope.respuesta.opcion, $rootScope.currentIdAprobacion) 
+                facturaRepository.setFactura($rootScope.currentFolioFactura, $rootScope.currentEmployee, $scope.respuesta.opcion, 1) 
                     .success(setFacturaSuccessCallback)
                     .error(errorCallBack);
             } else

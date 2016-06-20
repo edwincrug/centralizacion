@@ -117,14 +117,14 @@
           <strong> {{ documento.nombreDocumento }}</strong> {{ documento.descripcion }}
           <div class="botoneraDocumento">
             <button type="button" class="btn btn-primary btn-xs" tooltip="{{ documento.consultar == 1 ? 'Ver documento' : 'No puede realizar está acción' }}" ng-class="{ 'disabled': documento.consultar != 1 }" ng-click="VerDocumento(documento)"
-            ng-hide="(documento.cargar != 0 && documento.existeDoc == '')">
+            ng-hide="(documento.cargar != 0 && documento.existeDoc == '')" ng-disabled="documento.existeDoc == ''">
               <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 
             </button>
             <!--30/05/2016 LMS para ocultar boton descargar-->
             <!--a type="button" class="btn btn-info btn-xs" tooltip="Descargar" href="{{ documento.existeDoc }}" ng-class="{ 'disabled': documento.descargar != 1 }" download ng-hide="(documento.cargar != 0 && documento.existeDoc == '')">
               <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 
             </a-->
-            <button type="button"  class="btn btn-success btn-xs" tooltip="Enviar" ng-click="ShowEnviar(documento)" ng-class="{ 'disabled': documento.enviarEmail != 1 }" ng-hide="(documento.cargar != 0 && documento.existeDoc == '')">
+            <button type="button"  class="btn btn-success btn-xs" tooltip="Enviar" ng-click="ShowEnviar(documento)" ng-class="{ 'disabled': documento.enviarEmail != 1 }" ng-hide="(documento.cargar != 0 && documento.existeDoc == '')" ng-disabled="documento.existeDoc == ''">
               <span class="glyphicon glyphicon-send" aria-hidden="true"></span>  
             </button>
             <button type="button" class="btn btn-warning btn-xs" tooltip="Cargar documento" ng-click="ShowCargar(documento)"
