@@ -46,8 +46,14 @@
                         <span> <!-- ng-hide="respuesta.opcion == 1"-->
                             <button class="btn btn-success" tooltip="Comparar documentos" ng-click="CompararDocumentos()">Comparar Documentos</button>
                         </span>
-                        <span> <!-- ng-hide="respuesta.opcion == 2"-->   
-                            <button type="button" class="btn btn-primary" tooltip="Confirmar documentos" ng-click="Confirmar()" id="btnConfirmar" data-loading-text="Confirmando..."><span class="glyphicon glyphicon-play " aria-hidden="true"></span>Confirmar</button>
+                        <span>  
+                            <button type="button" class="btn btn-primary" tooltip="Regresar" ng-click="Regresar()" id="btnRegresar">Regresar</button>
+                        </span>
+                        <span> 
+                            <button type="button" class="btn btn-primary" tooltip="Confirmar documentos" ng-click="Confirmar()" id="btnConfirmar" data-loading-text="Confirmando..."
+                            ng-hide="false" ng-disabled="false">
+                            <span class="glyphicon glyphicon-play " aria-hidden="true">
+                            </span>Confirmar</button>
                         </span>
                     </div>
                  </div>             

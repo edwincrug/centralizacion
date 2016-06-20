@@ -144,6 +144,20 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
             .error(errorCallBack);
     };
 
+    $scope.Regresar = function() {
+        alertFactory.warning('Estoy en Regresar'); 
+        if (window.location.pathname == '/factura') {
+            location.href = '/?id=' + $rootScope.currentFolioFactura + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $rootScope.empleado.idPerfil;
+        } else {
+             alert('Errooooooorrrrrrr');
+            //$('#frameUpload').attr('src', '/uploader');
+            //$('#modalUpload').modal('show');
+            //$rootScope.currentUpload = doc;
+        }
+    };
+
+
+
     var getDocRecepcionSuccessCallback = function(data, status, headers, config) {
         //alertFactory.warning('Estoy en la funcion getDocRecepcionSuccessCallback Emple: ' + $rootScope.currentEmployee + ' Resp:'+$scope.respuesta.opcion + ' Aprob: ' + $rootScope.currentIdAprobacion); //Agregado Lulu 17may2016 
         if (data != null) {
