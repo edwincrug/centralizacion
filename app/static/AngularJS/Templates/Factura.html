@@ -41,7 +41,7 @@
                 <div id="viewerDocs" ng-controller="documentoController">
                     <div class="btn-group" class="col-md-14">
                         <span> <!--ng-hide="respuesta.opcion == 1"-->
-                            <button type="button" class="btn btn-warning" tooltip="Cargar documento" ng-click="openUpload()">Cargar Archivo Recep. Material</button>
+                            <button type="button" class="btn btn-warning" tooltip="Cargar documento" ng-click="openUpload()" ng-show="btnView">Cargar Archivo Recep. Material</button>
                         </span>
                         <span> <!-- ng-hide="respuesta.opcion == 1"-->
                             <button class="btn btn-success" tooltip="Comparar documentos" ng-click="CompararDocumentos()">Comparar Documentos</button>
@@ -51,7 +51,7 @@
                         </span>
                         <span> 
                             <button type="button" class="btn btn-primary" tooltip="Confirmar documentos" ng-click="Confirmar()" id="btnConfirmar" data-loading-text="Confirmando..."
-                            ng-hide="false" ng-disabled="false">
+                            ng-hide="false" ng-disabled="false" ng-show="btnView">
                             <span class="glyphicon glyphicon-play " aria-hidden="true">
                             </span>Confirmar</button>
                         </span>

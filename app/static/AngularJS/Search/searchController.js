@@ -1,4 +1,4 @@
-﻿registrationModule.controller("searchController", function ($scope, $rootScope, localStorageService, alertFactory, searchRepository) {
+﻿registrationModule.controller("searchController", function ($scope, $rootScope,$location, localStorageService, alertFactory, searchRepository) {
 
     //Propiedades
     $rootScope.searchlevel = 1;
@@ -10,6 +10,12 @@
         alertFactory.error('Ocurrio un problema');
 
     };
+
+    if($location.path() === "/factura"){
+        $scope.buttonMenuVisible = false;
+    }else{
+        $scope.buttonMenuVisible = true;
+    }
 
     //Grupo de funciones de inicio
     $scope.init = function () {
@@ -282,6 +288,7 @@
         }
         else
         {
+            console.log(data);
             $rootScope.ordenesCompra = data;
             $('#searchResultsO').modal('show');
         }
@@ -300,6 +307,8 @@
         $scope.folioBusca = '';// ? '': $scope.folioBusca);
         $rootScope.proveedor = null; //? 0: $rootScope.proveedor.idProveedor);
         $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);
+        location.href = '/?id=' + fol.Folio_Operacion + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $rootScope.empleado.idPerfil;
+            
 
         if(fol.esPlanta == 1){
             if(fol.tipofolio == 3)

@@ -1,4 +1,4 @@
-registrationModule.controller("facturaController", function($scope, $rootScope, utils, localStorageService, alertFactory, documentoRepository, alertaRepository, empleadoRepository, facturaRepository) {
+registrationModule.controller("facturaController", function($scope, $rootScope,$location, utils, localStorageService, alertFactory, documentoRepository, alertaRepository, empleadoRepository, facturaRepository) {
 
 
     //Mensajes en caso de error
@@ -6,7 +6,6 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         $('#btnConfirmar').button('reset');
         alertFactory.error('Ocurrio un problema');
     };
-
     //Grupo de funciones de inicio
     $scope.init = function() {
 
@@ -14,6 +13,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         getEmpleado();
         //getIdAprobacion();
         //LMS 09/05/2016 Obtengo lista de documentos
+        $scope.btnView = true;
         getListaDocumentos();
 
         $scope.consultaInicial = 1;
@@ -21,6 +21,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
         $scope.respuesta = {
             opcion: '1'
         };
+
     };
 
     var getFolio = function() {
@@ -75,6 +76,15 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
     var getByNodoSuccessCallback = function(data, status, headers, config) {
         if (data != null) {
             $scope.listaDocumentos = data;
+
+
+        ////LMS
+        angular.forEach($scope.listaDocumentos, function(value, key) {
+            if (value.idDocumento == 20 && value.estatusDoc != 2) {
+                $scope.btnView = false;
+            }
+        });
+        ////
             //alertFactory.success('Lista de Documentos cargada');
         } else {
             alertFactory.warning('No hay documentos para Mostrar');
@@ -145,9 +155,11 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
     };
 
     $scope.Regresar = function() {
+
         alertFactory.warning('Estoy en Regresar'); 
         if (window.location.pathname == '/factura') {
-            location.href = '/?id=' + $rootScope.currentFolioFactura + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $rootScope.empleado.idPerfil;
+            location.href = '/?id=' + $rootScope.currentFolioFactura + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $location.search().perfil;
+            //location.href = '/?employee=' + $rootScope.currentEmployee ;
         } else {
              alert('Errooooooorrrrrrr');
             //$('#frameUpload').attr('src', '/uploader');
@@ -216,6 +228,8 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
 
     //LMS 09/05/2016 Funcion para ver que documentos se encuentran seleccionados
     $scope.CompararDocumentos = function() {
+
+        //$route.reload();
 
         $scope.contadorSeleccionado = 0;
         $scope.contadorExiste = 0;
@@ -299,5 +313,6 @@ registrationModule.controller("facturaController", function($scope, $rootScope, 
     //LMS 09/05/2016  
     //$scope.SeleccionaDocumento = function(documento) {
     //    alertFactory.success(documento.seleccionado);
-    //}
+    //
+
 });
