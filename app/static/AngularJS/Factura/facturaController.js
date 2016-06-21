@@ -80,7 +80,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope,$
 
         ////LMS
         angular.forEach($scope.listaDocumentos, function(value, key) {
-            if (value.idDocumento == 20 && value.estatusDoc != 2) {
+            if (value.idDocumento == 20 && value.estatusDoc == 2) {
                 $scope.btnView = false;
             }
         });
