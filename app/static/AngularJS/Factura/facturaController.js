@@ -155,8 +155,7 @@ registrationModule.controller("facturaController", function($scope, $rootScope,$
     };
 
     $scope.Regresar = function() {
-
-        alertFactory.warning('Estoy en Regresar'); 
+        //alertFactory.warning('Estoy en Regresar'); 
         if (window.location.pathname == '/factura') {
             location.href = '/?id=' + $rootScope.currentFolioFactura + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $location.search().perfil;
             //location.href = '/?employee=' + $rootScope.currentEmployee ;
