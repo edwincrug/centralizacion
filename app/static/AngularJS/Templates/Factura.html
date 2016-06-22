@@ -30,10 +30,10 @@
             <div class="col-md-12">
                 <br>
                 <input type="radio" name="radiog_dark" id="radio1" class="css-checkbox" checked="checked" ng-model="respuesta.opcion" value="1" ng-show="respuesta.opcion">
-                <label for="radio1" class="css-label radGroup2"><h5>La Factura Coincide&nbsp;&nbsp;</h5></label>
+                <label for="radio1" class="css-label radGroup2" ng-show="btnView"><h5>La Factura Coincide&nbsp;&nbsp;</h5></label>
                 </input>
                 <input type="radio" name="radiog_dark" id="radio2" class="css-checkbox" checked="checked" ng-model="respuesta.opcion" value="2" >
-                <label for="radio2" class="css-label radGroup2"><h5>La Factura NO Coincide</h5></label>
+                <label for="radio2" class="css-label radGroup2" ng-show="btnView"><h5>La Factura NO Coincide</h5></label>
                 </input>
             </div>  
         </div> 
