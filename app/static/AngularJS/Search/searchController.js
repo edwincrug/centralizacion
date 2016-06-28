@@ -307,7 +307,7 @@
         $scope.folioBusca = '';// ? '': $scope.folioBusca);
         $rootScope.proveedor = null; //? 0: $rootScope.proveedor.idProveedor);
         $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);
-        location.href = '/?id=' + fol.Folio_Operacion + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $rootScope.empleado.idPerfil;
+        //location.href = '/?id=' + fol.Folio_Operacion + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $rootScope.empleado.idPerfil;
             
 
         if(fol.esPlanta == 1){
