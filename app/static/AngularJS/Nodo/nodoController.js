@@ -61,11 +61,13 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         $rootScope.empleado = data;
         //Obtenemos la lista de nodos completos
         if($rootScope.empleado != null){
-                $scope.folio = getParameterByName('id') != '' ? getParameterByName('id') : $scope.id; //localStorageService.get('idFolio');
+                //LMS 29/06/2016 Validacion para folio
+                if($rootScope.folio == null)
+                $rootScope.folio = getParameterByName('id') != '' ? getParameterByName('id') : $scope.id; //localStorageService.get('idFolio');
                 //Obtengo el encabezado del expediente                
 
-                if($scope.folio){
-                    nodoRepository.getHeader($scope.folio,$rootScope.empleado.idUsuario)
+                if($rootScope.folio){
+                    nodoRepository.getHeader($rootScope.folio,$rootScope.empleado.idUsuario)
                         .success(obtieneHeaderSuccessCallback)
                         .error(errorCallBack);
                 }
@@ -85,6 +87,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     {
         //$scope.navegacion = true; //LQMA true: entro desde navDiv
         //alert(folio.folionuevo);
+        $rootScope.folio = folio;
         $('#navegaLinks').modal('hide');        
 
         if($rootScope.navegacionBusqueda == 1 && $rootScope.tipoFolio == 1){
@@ -118,7 +121,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
 
         if($scope.expediente != null){
             //Obtengo la información de los nodos            
-            nodoRepository.getAll($scope.folio,$scope.idProceso,$rootScope.empleado.idPerfil)
+            nodoRepository.getAll($rootScope.folio,$scope.idProceso,$rootScope.empleado.idPerfil)
                 .success(obtieneNodosSuccessCallback)
                 .error(errorCallBack);
         }
@@ -274,7 +277,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         //llamar a sp y mostrar div
         if(tipoFolio != 0 && tipoReturn != 0)
         {            
-            nodoRepository.getNavegacion($scope.folio,tipoFolio,tipoReturn)
+            nodoRepository.getNavegacion($rootScope.folio,tipoFolio,tipoReturn)
                 .success(getNavegacionSuccessCallback)
                 .error(errorCallBack);
         }
@@ -290,7 +293,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         var tipoFolio = tipo, tipoReturn = (tipo == 1)?2:3;
         $rootScope.navegacionBusqueda = 1;
         $scope.navBusFolio = 1;
-        $scope.folio = folio;
+        $rootScope.folio = folio;
         $scope.nodNavBusqueda = 0;
         $rootScope.tipoFolio = tipo;
 
@@ -405,6 +408,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
             //si no tiene 
             if(data.length > 0)
                 {
+                    $rootScope.CargaEmpleado($rootScope.folio);
+
                     if($rootScope.tipoFolio == 1){
                             $rootScope.linksNavegacion = data;
                             $('#navegaLinks').modal('show');
@@ -421,7 +426,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                     
                 }
             else{
-                    $rootScope.CargaEmpleado($scope.folio);
+                    $rootScope.CargaEmpleado($rootScope.folio);
                     //poner nodo actual 
                     //cuando OC poner en el ultimo nodo de ordenes --> global_settings.nodoSaltoRefacciones[0] - 1
                     //cuando RE poner en el ultimo nodo de remisiones -->global_settings.nodoSaltoRefacciones[1]
@@ -439,7 +444,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                         alertFactory.warning('No existen remisiones/facturas para continuar el flujo.');
                     else
                     {                
-                        $rootScope.CargaEmpleado($scope.folio);   //folio);
+                        $rootScope.CargaEmpleado($rootScope.folio);   //folio);
                         $rootScope.navegacionBusqueda = 0;
                     }
                 }

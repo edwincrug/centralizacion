@@ -298,7 +298,7 @@
     };
 
     $scope.CargaOrden = function(fol){  
-        //alert(fol.Folio_Operacion);
+        
         $('#closeMenu').click();
         $('#searchResultsO').modal('hide');        
         $rootScope.empresa = null;// ? 0 : $rootScope.empresa.idEmpresa);
@@ -307,9 +307,10 @@
         $scope.folioBusca = '';// ? '': $scope.folioBusca);
         $rootScope.proveedor = null; //? 0: $rootScope.proveedor.idProveedor);
         $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);
+        $rootScope.folio = fol.Folio_Operacion; 
         //location.href = '/?id=' + fol.Folio_Operacion + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $rootScope.empleado.idPerfil;
             
-
+        //alertFactory.warning('Estoy en CargaOrden fol.Folio_Operacion  ' + fol.Folio_Operacion);
         if(fol.esPlanta == 1){
             if(fol.tipofolio == 3)
                 $rootScope.CargaEmpleado(fol.Folio_Operacion);
