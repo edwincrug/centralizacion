@@ -113,7 +113,7 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         //Asigno el objeto encabezado
         $scope.expediente = data;   
         //LQMA la propiedad $scope.expediente.nodoActual se actualiza con el data, checar si viene de otro link para poner en el nodo seleccionado
-        if($scope.navBusFolio == 1)//si viene de busqueda
+        if($scope.navBusFolio == 1 && $scope.expediente.esPlanta != 1)//si viene de busqueda
             $scope.expediente.nodoActual = $scope.nodNavBusqueda;
         
         $scope.navBusFolio =0;

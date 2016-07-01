@@ -307,18 +307,26 @@
         $scope.folioBusca = '';// ? '': $scope.folioBusca);
         $rootScope.proveedor = null; //? 0: $rootScope.proveedor.idProveedor);
         $rootScope.tipo = null;// ? -1: $rootScope.tipo.idtipoorden);
-        $rootScope.folio = fol.Folio_Operacion; 
-        //location.href = '/?id=' + fol.Folio_Operacion + '&employee=' + $rootScope.currentEmployee + '&perfil=' + $rootScope.empleado.idPerfil;
-            
-        //alertFactory.warning('Estoy en CargaOrden fol.Folio_Operacion  ' + fol.Folio_Operacion);
-        if(fol.esPlanta == 1){
-            if(fol.tipofolio == 3)
-                $rootScope.CargaEmpleado(fol.Folio_Operacion);
+        $rootScope.folio = fol.Folio_Operacion; //LMS 29062016 resolvia la busqueda URL encimaba
+        $rootScope.fol_tipofolio = fol.tipofolio; //LQMA 30062016
+        $rootScope.fol_Folio_Operacion = fol.Folio_Operacion; //LQMA 30062016
+        $rootScope.fol_nodoactual = fol.nodoactual; //LQMA 30062016
+
+        searchRepository.getIsPlanta(fol.Folio_Operacion) //LQMA 30062016
+            .success(getIsPlantaSuccessCallback)
+            .error(errorCallBack);      
+
+    };
+
+    var getIsPlantaSuccessCallback = function (data, status, headers, config) { //LQMA 30062016
+        if(data == 1){
+            if($rootScope.fol_tipofolio == 3)
+                $rootScope.CargaEmpleado($rootScope.fol_Folio_Operacion);
             else
-                $rootScope.navBusqueda(fol.tipofolio,fol.nodoactual,fol.Folio_Operacion);
+                $rootScope.navBusqueda($rootScope.fol_tipofolio,$rootScope.fol_nodoactual,$rootScope.fol_Folio_Operacion);
         }
         else
-            $rootScope.CargaEmpleado(fol.Folio_Operacion);
+            $rootScope.CargaEmpleado($rootScope.fol_Folio_Operacion);
 
     };
 

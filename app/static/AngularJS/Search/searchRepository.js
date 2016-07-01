@@ -28,6 +28,9 @@ registrationModule.factory('searchRepository', function ($http) {
         },
         update: function (id) {
             return $http.post(searchUrl + '2|' + id);
+        },
+        getIsPlanta: function (folio) {  //LQMA 30062016
+            return $http.get(searchUrl + '8|' + folio);
         }
     };
 });
