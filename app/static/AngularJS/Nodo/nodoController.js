@@ -88,7 +88,8 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
         //$scope.navegacion = true; //LQMA true: entro desde navDiv
         //alert(folio.folionuevo);
         $rootScope.folio = folio;
-        $('#navegaLinks').modal('hide');        
+        $('#navegaLinks').modal('hide');
+        $('#navegaLinks2').modal('hide');
 
         if($rootScope.navegacionBusqueda == 1 && $rootScope.tipoFolio == 1){
 
@@ -391,36 +392,64 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
     var getNavegacionSuccessCallback = function (data, status, headers, config) {
 
         //Asigno titulo de modal
-        if(data.length > 0)
+        if(data.length > 0){
+                 var nodoActual = angular.isUndefined($scope.currentNode)?0:$scope.currentNode.id;
+
                      switch(data[0].tipoFolioNav){
                          case 1:
-                             $rootScope.tituloNavegacion = 'OC';
+
+                             if(nodoActual > 3){
+
+                                    $rootScope.tituloNavegacion = 'Remisión: '  + data[0].folioinicial;
+                                    $rootScope.tipoOrdenNav = 'Ordenes de Compra asociadas';
+                                }
+                             else{
+                                    $rootScope.tituloNavegacion = 'Ordenes de Compra ';
+                                    $rootScope.tipoOrdenNav = 'OC';
+                                }
+                             
+                             //$rootScope.tipoOrdenNav = 'Ordenes de Compra'
                              break;
                          case 2: 
-                             $rootScope.tituloNavegacion = 'Remisiones';
+                                if(nodoActual > 6)
+                                   $rootScope.tituloNavegacion = 'Factura: '  + data[0].folioinicial;
+                                else
+                                    $rootScope.tituloNavegacion = 'Orden de Compra: ' + data[0].folioinicial;
+
+                                $rootScope.tipoOrdenNav = 'Remisiones asociadas:';
+                             
                              break;
                          case 3: 
-                             $rootScope.tituloNavegacion = 'Facturas';
+                             $rootScope.tituloNavegacion = 'Remisión: ' + data[0].folioinicial;
+                             $rootScope.tipoOrdenNav = 'Facturas asociadas';
                              break;
                      } 
+                 }
 
         if($scope.navBusFolio == 1){ //
             //si no tiene 
             if(data.length > 0)
                 {
                     $rootScope.CargaEmpleado($rootScope.folio);
-
+                    console.log('ternura');
                     if($rootScope.tipoFolio == 1){
                             $rootScope.linksNavegacion = data;
+                            /*setTimeout( function(){
+                                $('#navegaLinks').modal('show');
+                                console.log('show modal');
+                            } ,300);*/
                             $('#navegaLinks').modal('show');
                     }
                     else{
                             $rootScope.linksNavegacion = data;
                             //El título siempre es "Facturas"
                             //$rootScope.tituloNavegacion = 'Facturas';
-                            setTimeout( function(){
+                            /*setTimeout( function(){
                                 $('#navegaLinks').modal('show');
-                            } ,300);
+                                console.log($rootScope.tipoFolio);
+                            } ,300);*/
+
+                            $('#navegaLinks2').modal('show');
                     }
                     $scope.navBusFolio = 0;
                     
@@ -436,7 +465,10 @@ registrationModule.controller("nodoController", function ($scope, $rootScope, lo
                 if(data.length > 0)
                 {
                     $rootScope.linksNavegacion = data;
-                    $('#navegaLinks').modal('show');//$('#navegaLinks').modal('show');
+                    setTimeout( function(){
+                                $('#navegaLinks').modal('show');
+                            } ,300);
+                    //$('#navegaLinks').modal('show');//$('#navegaLinks').modal('show');
                 }
                 else
                 {
